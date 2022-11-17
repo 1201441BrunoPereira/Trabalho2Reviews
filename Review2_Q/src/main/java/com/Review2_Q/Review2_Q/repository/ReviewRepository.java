@@ -1,7 +1,7 @@
-package com.Review1_Q.Review1_Q.repository;
+package com.Review2_Q.Review2_Q.repository;
 
 
-import com.Review1_Q.Review1_Q.model.Review;
+import com.Review2_Q.Review2_Q.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,5 +1,6 @@
 package com.Review1_C.Review1_C.model;
 
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,15 +9,19 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "reviews")
 public class Review {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long reviewId;
+    @GeneratedValue(generator = "idGenerator")
+    @GenericGenerator(name = "idGenerator", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "ID", nullable = false, length = 36)
+    private String reviewId ;
 
     @Column(nullable = true)
     @Size(max = 2048)
@@ -51,7 +56,8 @@ public class Review {
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact, final Long userId) {
+    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact, final Long userId) {
+        setReviewId(reviewId);
         setStatus(status);
         setDate(date);
         setText(text);
@@ -66,7 +72,11 @@ public class Review {
         return text;
     }
 
-    public Long getReviewId() {
+    public void setReviewId(String reviewId) {
+        this.reviewId = reviewId;
+    }
+
+    public String getReviewId() {
         return reviewId;
     }
 
@@ -136,6 +146,12 @@ public class Review {
         this.funFact = funFact;
     }
 
+    public static String generateUUID(){
+        UUID Uuid = UUID.randomUUID();
+        String reviewId = Uuid.toString();
+        return  reviewId;
+    }
+
     public void getFunFactResponse(Date date) {
         String response;
         String finalResponse;
@@ -174,13 +190,14 @@ public class Review {
         final Review obj = new Review();
         long millis = System.currentTimeMillis();
         if(!rev.getText().isEmpty() || rev.getRating() != 0){
+            obj.reviewId = generateUUID();
             obj.skuProduct = rev.sku;
             obj.status = "PENDING";
             obj.date = new Date(millis);
             obj.rating = rev.rating;
             obj.text = rev.text;
             obj.getFunFactResponse(obj.date);
-            return new Review(obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
+            return new Review(obj.reviewId, obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
         }
         else{
             return obj;

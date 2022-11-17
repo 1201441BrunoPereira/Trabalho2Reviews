@@ -1,4 +1,4 @@
-package com.Review1_Q.Review1_Q.model;
+package com.Review2_Q.Review2_Q.model;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;

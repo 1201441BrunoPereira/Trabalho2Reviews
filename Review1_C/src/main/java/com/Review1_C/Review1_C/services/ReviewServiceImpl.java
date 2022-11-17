@@ -3,7 +3,6 @@ package com.Review1_C.Review1_C.services;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.repository.ProductRepository;
-import com.Review1_C.Review1_C.repository.Review2Repository;
 import com.Review1_C.Review1_C.repository.ReviewRepository;
 import com.Review1_C.Review1_C.repository.VoteRepository;
 import com.Review1_C.Review1_C.security.JwtUtils;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.io.IOException;
 import java.util.*;
 
@@ -19,8 +19,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ReviewRepository repository;
 
-    @Autowired
-    private Review2Repository repository2;
     @Autowired
     private ProductRepository productRepository;
 
@@ -44,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Boolean approveRejectReview(Long reviewId, Boolean status){
+    public Boolean approveRejectReview(String reviewId, Boolean status){
         Review review = repository.getReviewById(reviewId);
         try {
             if (Objects.equals(review.getStatus(), "PENDING")) {
@@ -64,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     }
 
-    public Boolean deleteReview(Long reviewId) throws IOException, InterruptedException {
+    public Boolean deleteReview(String reviewId) throws IOException, InterruptedException {
 
         var votes = voteRepository.getVotesByReviewId(reviewId);
         Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
@@ -76,13 +74,7 @@ public class ReviewServiceImpl implements ReviewService {
             return false;
     }
 
-    @Override
-    public String getStatus(Long reviewId) throws IOException, InterruptedException {
-        Review review = repository.getReviewById(reviewId);
-        if(review == null){
-           review = repository2.getReviewbyId(reviewId);
-        }
-        return review.getStatus();
-    }
-
 }
+
+
+

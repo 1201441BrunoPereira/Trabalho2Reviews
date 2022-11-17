@@ -1,4 +1,4 @@
-package com.Review1_C.Review1_C.repository;
+package com.Review2_Q.Review2_Q.repository;
 
 import org.springframework.stereotype.Repository;
 
@@ -7,7 +7,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.UUID;
 
 @Repository
 public class VoteRepository {

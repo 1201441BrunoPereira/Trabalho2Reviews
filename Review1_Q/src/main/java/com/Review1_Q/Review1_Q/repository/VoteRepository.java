@@ -11,7 +11,7 @@ import java.net.http.HttpResponse;
 @Repository
 public class VoteRepository {
 
-    public int getVotesByReviewId(Long reviewId) throws IOException, InterruptedException {
+    public int getVotesByReviewId(String reviewId) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()

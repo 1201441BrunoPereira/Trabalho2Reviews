@@ -1,9 +1,9 @@
-package com.Review1_Q.Review1_Q.controller;
+package com.Review2_Q.Review2_Q.controller;
 
 
-import com.Review1_Q.Review1_Q.model.RatingFrequency;
-import com.Review1_Q.Review1_Q.model.Review;
-import com.Review1_Q.Review1_Q.services.ReviewService;
+import com.Review2_Q.Review2_Q.model.RatingFrequency;
+import com.Review2_Q.Review2_Q.model.Review;
+import com.Review2_Q.Review2_Q.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

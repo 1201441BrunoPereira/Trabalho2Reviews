@@ -1,7 +1,7 @@
-package com.Review1_Q.Review1_Q.repository;
+package com.Review2_Q.Review2_Q.repository;
 
 
-import com.Review1_Q.Review1_Q.model.Review;
+import com.Review2_Q.Review2_Q.model.Review;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +21,7 @@ public class Review2Repository {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8086/reviews/internal/" + reviewId))
+                .uri(URI.create("http://localhost:8084/reviews/internal/" + reviewId))
                 .build();
 
         HttpResponse response = client.send(request,
@@ -40,7 +40,7 @@ public class Review2Repository {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8086/reviews/internal/"+sku+"/product"))
+                .uri(URI.create("http://localhost:8084/reviews/internal/"+sku+"/product"))
                 .build();
 
         HttpResponse response = client.send(request,
