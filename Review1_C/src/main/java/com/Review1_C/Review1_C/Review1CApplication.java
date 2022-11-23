@@ -14,11 +14,4 @@ public class Review1CApplication {
 		SpringApplication.run(Review1CApplication.class, args);
 	}
 
-	@Bean(initMethod = "start", destroyMethod = "stop")
-	public Server inMemoryH2DatabaseaServer() throws SQLException {
-		return Server.createTcpServer(
-				"-tcp", "-tcpAllowOthers", "-tcpPort", "9092");
-	}
-
-
 }

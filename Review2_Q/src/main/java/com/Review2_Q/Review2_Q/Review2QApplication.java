@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Review2QApplication {
+public class 	Review2QApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Review2QApplication.class, args);
