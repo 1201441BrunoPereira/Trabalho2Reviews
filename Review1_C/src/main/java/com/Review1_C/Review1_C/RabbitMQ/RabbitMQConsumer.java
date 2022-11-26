@@ -1,5 +1,5 @@
 package com.Review1_C.Review1_C.RabbitMQ;
-
+/*
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.repository.ReviewRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -39,3 +39,4 @@ public class RabbitMQConsumer {
     }
 
 }
+        */

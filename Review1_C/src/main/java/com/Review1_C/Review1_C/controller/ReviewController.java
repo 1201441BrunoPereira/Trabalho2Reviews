@@ -23,7 +23,7 @@ public class ReviewController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Review> createReview(@RequestBody final ReviewDTO rev) throws IOException, InterruptedException {
-        return new ResponseEntity<Review>(service.create(rev), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(rev), HttpStatus.CREATED);
     }
 
 

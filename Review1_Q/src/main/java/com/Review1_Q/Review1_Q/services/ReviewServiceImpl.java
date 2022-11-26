@@ -136,7 +136,7 @@ public class ReviewServiceImpl implements ReviewService {
         int some = one+two+three+four+five;
         float globalRating;
         if (some != 0) {
-            globalRating = (one * 1 + two * 2 + three * 3 + four * 4 + five * 5) / some;
+            globalRating = (one + two * 2 + three * 3 + four * 4 + five * 5) / some;
         }else{
             globalRating = 0;
         }

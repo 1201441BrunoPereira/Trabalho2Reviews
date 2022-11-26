@@ -20,7 +20,7 @@ public class RabbitMQConsumer {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.save(rv);
-        System.out.println(review);
+        System.out.println("Creating review in Database with id:" + rv.getReviewId());
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue2.name}")
@@ -28,7 +28,7 @@ public class RabbitMQConsumer {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.delete(rv);
-        System.out.println(review);
+        System.out.println("Deleting review in Database with id:" + rv.getReviewId());
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue3.name}")
@@ -36,7 +36,7 @@ public class RabbitMQConsumer {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.save(rv);
-        System.out.println(review);
+        System.out.println("Changing review status in Database with id:" + rv.getReviewId());
     }
 
 }
