@@ -1,12 +1,13 @@
-package com.Review1_C.Review1_C.services;
+package com.example.Review2_C.Review2_C.services;
 
-import com.Review1_C.Review1_C.RabbitMQ.RabbitMQPublisher;
-import com.Review1_C.Review1_C.model.Review;
-import com.Review1_C.Review1_C.model.ReviewDTO;
-import com.Review1_C.Review1_C.repository.ProductRepository;
-import com.Review1_C.Review1_C.repository.ReviewRepository;
-import com.Review1_C.Review1_C.repository.VoteRepository;
-import com.Review1_C.Review1_C.security.JwtUtils;
+
+import com.example.Review2_C.Review2_C.RabbitMQ.RabbitMQPublisher;
+import com.example.Review2_C.Review2_C.model.Review;
+import com.example.Review2_C.Review2_C.model.ReviewDTO;
+import com.example.Review2_C.Review2_C.repository.ProductRepository;
+import com.example.Review2_C.Review2_C.repository.ReviewRepository;
+import com.example.Review2_C.Review2_C.repository.VoteRepository;
+import com.example.Review2_C.Review2_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Objects;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {

@@ -20,8 +20,6 @@ public class Review {
 
 
     @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID", nullable = false, length = 36)
     private String reviewId ;
 
@@ -185,24 +183,6 @@ public class Review {
             setFunFact(part1);
         }catch (IOException e){
             e.printStackTrace();
-        }
-    }
-
-    public static Review newFrom(final ReviewDTO rev, final Long userId) {
-        final Review obj = new Review();
-        long millis = System.currentTimeMillis();
-        if(!rev.getText().isEmpty() || rev.getRating() != 0){
-            obj.reviewId = generateUUID();
-            obj.skuProduct = rev.sku;
-            obj.status = "PENDING";
-            obj.date = new Date(millis);
-            obj.rating = rev.rating;
-            obj.text = rev.text;
-            obj.getFunFactResponse(obj.date);
-            return new Review(obj.reviewId, obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
-        }
-        else{
-            return obj;
         }
     }
 

@@ -1,7 +1,8 @@
-package com.Review1_C.Review1_C.model;
+package com.example.Review2_C.Review2_C.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.*;
+
+import jakarta.persistence.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
