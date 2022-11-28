@@ -1,7 +1,5 @@
-package com.example.Review2_C.Review2_C.security;
+package com.Review2_C.Review2_C.security;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -23,8 +21,4 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You don't have authorization to do this");
     }
 
-    @Override
-    public void commence(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-
-    }
 }

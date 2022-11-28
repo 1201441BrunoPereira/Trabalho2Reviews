@@ -1,4 +1,4 @@
-package com.example.Review2_C.Review2_C.RabbitMQ;
+package com.Review2_C.Review2_C.RabbitMQ;
 
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

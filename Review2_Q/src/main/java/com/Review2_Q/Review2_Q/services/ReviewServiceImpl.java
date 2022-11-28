@@ -73,18 +73,18 @@ public class ReviewServiceImpl implements ReviewService {
         return repository.getAllMyReviews(userId);
     }
 
-    /*
+
     @Override
     public List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException {
-        List<Review> reviewsProduct = repository.getReviewsByProduct(sku);
+          List<Review> reviewsProduct = repository.getReviewsByProduct(sku);
         if (reviewsProduct.isEmpty()){
             reviewsProduct = repository2.getReviewsBySku(sku);
         }
         List<Review> reviewsOrderByVote = new ArrayList<>();
         int sizeList = reviewsProduct.size();
-        Map<Long,Integer> votesByReview = new HashMap<Long,Integer>();
+        Map<String,Integer> votesByReview = new HashMap<String,Integer>();
         for(int i=0; i<sizeList; i++){
-            var votes = voteRepository.getVotesByReviewId(reviewsProduct.get(i).getReviewId());
+            var votes = voteRepository.getTotalVotesByReviewId(reviewsProduct.get(i).getReviewId());
             votesByReview.put(reviewsProduct.get(i).getReviewId(), votes);
         }
 
@@ -93,13 +93,13 @@ public class ReviewServiceImpl implements ReviewService {
                 .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
-        Long higherVotes;
-        Long ReviewId;
+        String higherVotes;
+        String ReviewId;
         for(Map.Entry mapElement : votesByReview.entrySet()){
-            higherVotes = (Long) mapElement.getKey();
+            higherVotes = mapElement.getKey().toString();
             for(int j=0; j<sizeList; j++){
                 ReviewId = reviewsProduct.get(j).getReviewId();
-                if(higherVotes == ReviewId){
+                if(higherVotes.equals(ReviewId)){
                     reviewsOrderByVote.add(reviewsProduct.get(j));
                     break;
                 }
@@ -107,7 +107,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewsOrderByVote;
-    }*/
+    }
 
     @Override
     public RatingFrequency getRatingFrequencyOfProduct(String sku) throws IOException, InterruptedException {

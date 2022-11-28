@@ -84,11 +84,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     public Boolean deleteReview(String reviewId) throws IOException, InterruptedException {
 
-        var votes = voteRepository.getVotesByReviewId(reviewId);
+        var votes = voteRepository.ReviewIsVoted(reviewId);
         Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
         Review review = repository.getReviewById(reviewId);
-        //&& Objects.equals(review.getUserId(), userId)
-        if (votes == 0 ) {
+        if(review == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review doesn't exist");
+        }
+        if (votes == false && Objects.equals(review.getUserId(), userId)) {
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(review);
             jsonProducer.sendJsonMessageToDelete(json);

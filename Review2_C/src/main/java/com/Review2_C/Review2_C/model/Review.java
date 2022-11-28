@@ -1,7 +1,6 @@
-package com.example.Review2_C.Review2_C.model;
+package com.Review2_C.Review2_C.model;
 
 
-import jakarta.persistence.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity

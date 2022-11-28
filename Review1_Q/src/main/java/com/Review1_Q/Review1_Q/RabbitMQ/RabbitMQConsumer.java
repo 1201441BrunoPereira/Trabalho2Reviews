@@ -15,7 +15,7 @@ public class RabbitMQConsumer {
     private ReviewRepository reviewRepository;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
-    public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
+    public void consumeJsonMessageToCreateFrom1(String review) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.save(rv);
@@ -23,7 +23,7 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue2.name}")
-    public void consumeJsonMessageToDelete(String review) throws JsonProcessingException {
+    public void consumeJsonMessageToDeleteFrom1(String review) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.delete(rv);
@@ -31,7 +31,31 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue3.name}")
-    public void consumeJsonMessageToChange(String review) throws JsonProcessingException {
+    public void consumeJsonMessageToChangeFrom1(String review) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Review rv = objectMapper.readValue(review, Review.class);
+        reviewRepository.save(rv);
+        System.out.println("Changing review status in Database with id:" + rv.getReviewId());
+    }
+
+    @RabbitListener(queues = "#{autoDeleteQueue4.name}")
+    public void consumeJsonMessageToCreateFrom2(String review) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Review rv = objectMapper.readValue(review, Review.class);
+        reviewRepository.save(rv);
+        System.out.println("Creating review in Database with id:" + rv.getReviewId());
+    }
+
+    @RabbitListener(queues = "#{autoDeleteQueue5.name}")
+    public void consumeJsonMessageToDeleteFrom2(String review) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Review rv = objectMapper.readValue(review, Review.class);
+        reviewRepository.delete(rv);
+        System.out.println("Deleting review in Database with id:" + rv.getReviewId());
+    }
+
+    @RabbitListener(queues = "#{autoDeleteQueue6.name}")
+    public void consumeJsonMessageToChangeFrom2(String review) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.save(rv);

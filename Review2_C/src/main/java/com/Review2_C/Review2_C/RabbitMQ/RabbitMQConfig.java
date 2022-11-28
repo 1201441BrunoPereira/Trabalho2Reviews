@@ -1,4 +1,4 @@
-package com.Review1_Q.Review1_Q.RabbitMQ;
+package com.Review2_C.Review2_C.RabbitMQ;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
@@ -6,6 +6,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+
+    @Bean
+    public FanoutExchange fanoutCreate() {
+        return new FanoutExchange("review2.created");
+    }
+
+    @Bean
+    public FanoutExchange fanoutDelete() {
+        return new FanoutExchange("review2.deleted");
+    }
+
+    @Bean
+    public FanoutExchange fanoutChangeStatus() {
+        return new FanoutExchange("review2.changedStatus");
+    }
 
     @Bean
     public FanoutExchange fanoutCreate1() {
@@ -52,48 +67,6 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(autoDeleteQueue3).to(fanoutChangeStatus1);
     }
 
-    @Bean
-    public FanoutExchange fanoutCreate2() {
-        return new FanoutExchange("review2.created");
-    }
 
-    @Bean
-    public FanoutExchange fanoutDelete2() {
-        return new FanoutExchange("review2.deleted");
-    }
 
-    @Bean
-    public FanoutExchange fanoutChangeStatus2() {
-        return new FanoutExchange("review2.changedStatus");
-    }
-
-    @Bean
-    public Queue autoDeleteQueue4() {
-        return new AnonymousQueue();
-    }
-
-    @Bean
-    public Queue autoDeleteQueue5() {
-        return new AnonymousQueue();
-    }
-
-    @Bean
-    public Queue autoDeleteQueue6() {
-        return new AnonymousQueue();
-    }
-
-    @Bean
-    public Binding binding4(FanoutExchange fanoutCreate2, Queue autoDeleteQueue4) {
-        return BindingBuilder.bind(autoDeleteQueue4).to(fanoutCreate2);
-    }
-
-    @Bean
-    public Binding binding5(FanoutExchange fanoutDelete2, Queue autoDeleteQueue5) {
-        return BindingBuilder.bind(autoDeleteQueue5).to(fanoutDelete2);
-    }
-
-    @Bean
-    public Binding binding6(FanoutExchange fanoutChangeStatus2, Queue autoDeleteQueue6) {
-        return BindingBuilder.bind(autoDeleteQueue6).to(fanoutChangeStatus2);
-    }
 }

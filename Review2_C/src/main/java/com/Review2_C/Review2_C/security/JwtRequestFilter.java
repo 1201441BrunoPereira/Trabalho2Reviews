@@ -1,4 +1,4 @@
-package com.example.Review2_C.Review2_C.security;
+package com.Review2_C.Review2_C.security;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;

@@ -12,20 +12,20 @@ import java.util.UUID;
 @Repository
 public class VoteRepository {
 
-    public int getVotesByReviewId(String reviewId) throws IOException, InterruptedException {
+    public boolean ReviewIsVoted(String reviewId) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8082/votes/" + reviewId))
+                .uri(URI.create("http://localhost:8092/getTotalVotesByReview/" + reviewId))
                 .build();
 
         HttpResponse response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() == 200) {
-            return Integer.parseInt(response.body().toString());
+        if (response.statusCode() == 404) {
+            return false;
         }else
-            return 0;
+            return true;
     }
 }
 

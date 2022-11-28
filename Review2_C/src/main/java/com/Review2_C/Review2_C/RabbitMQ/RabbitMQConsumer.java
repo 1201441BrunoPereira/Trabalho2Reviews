@@ -1,7 +1,8 @@
-package com.Review1_C.Review1_C.RabbitMQ;
+package com.Review2_C.Review2_C.RabbitMQ;
 
-import com.Review1_C.Review1_C.model.Review;
-import com.Review1_C.Review1_C.repository.ReviewRepository;
+
+import com.Review2_C.Review2_C.model.Review;
+import com.Review2_C.Review2_C.repository.ReviewRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

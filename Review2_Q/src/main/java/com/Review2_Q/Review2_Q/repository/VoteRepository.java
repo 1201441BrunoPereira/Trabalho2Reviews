@@ -11,11 +11,11 @@ import java.net.http.HttpResponse;
 @Repository
 public class VoteRepository {
 
-    public int getVotesByReviewId(String reviewId) throws IOException, InterruptedException {
+    public int getTotalVotesByReviewId(String reviewId) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("http://localhost:8082/votes/" + reviewId))
+                .uri(URI.create("http://localhost:8092/getTotalVotesByReview/" + reviewId))
                 .build();
 
         HttpResponse response = client.send(request,

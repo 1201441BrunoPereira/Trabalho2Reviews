@@ -1,10 +1,10 @@
-package com.example.Review2_C.Review2_C.controller;
+package com.Review2_C.Review2_C.controller;
 
 
 
-import com.example.Review2_C.Review2_C.model.Review;
-import com.example.Review2_C.Review2_C.model.ReviewDTO;
-import com.example.Review2_C.Review2_C.services.ReviewService;
+import com.Review2_C.Review2_C.model.Review;
+import com.Review2_C.Review2_C.model.ReviewDTO;
+import com.Review2_C.Review2_C.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

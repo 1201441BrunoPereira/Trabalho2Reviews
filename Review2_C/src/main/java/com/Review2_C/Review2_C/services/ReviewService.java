@@ -1,9 +1,9 @@
-package com.example.Review2_C.Review2_C.services;
+package com.Review2_C.Review2_C.services;
 
 
 
-import com.example.Review2_C.Review2_C.model.Review;
-import com.example.Review2_C.Review2_C.model.ReviewDTO;
+import com.Review2_C.Review2_C.model.Review;
+import com.Review2_C.Review2_C.model.ReviewDTO;
 
 import java.io.IOException;
 

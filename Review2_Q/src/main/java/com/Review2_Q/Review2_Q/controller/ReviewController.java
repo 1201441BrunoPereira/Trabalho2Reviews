@@ -57,10 +57,10 @@ public class ReviewController {
         return service.internalGetAllReviewsBySku(sku);
     }
 
-   /* @GetMapping(value = "/{skuProducts}/votes")
+    @GetMapping(value = "/{skuProducts}/votes")
     public Iterable<Review> getReviewsByProductOrderByVotes(@PathVariable("skuProducts") final String skuProducts) throws IOException, InterruptedException {
         return service.getReviewsByProductOrderByVotes(skuProducts);
-    }*/
+    }
 
     @GetMapping(value = "/pending")
     public Iterable<Review> getAllPendingReviews() throws IOException, InterruptedException {

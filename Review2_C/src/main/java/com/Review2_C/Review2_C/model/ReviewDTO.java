@@ -1,4 +1,4 @@
-package com.example.Review2_C.Review2_C.model;
+package com.Review2_C.Review2_C.model;
 
 public class ReviewDTO {
 
