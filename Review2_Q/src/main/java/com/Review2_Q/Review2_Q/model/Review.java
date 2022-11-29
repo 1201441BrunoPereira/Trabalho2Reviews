@@ -20,8 +20,6 @@ public class Review {
 
 
     @Id
-    @GeneratedValue(generator = "idGenerator")
-    @GenericGenerator(name = "idGenerator", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "ID", nullable = false, length = 36)
     private String reviewId ;
 
