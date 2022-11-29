@@ -1,8 +1,5 @@
 package com.Review1_Q.Review1_Q.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +20,7 @@ public class Review {
     @Column(name = "ID", nullable = false, length = 36)
     private String reviewId ;
 
-    @Column(nullable = true)
+    @Column()
     @Size(max = 2048)
     private String text;
 
@@ -37,13 +34,13 @@ public class Review {
     @Column(nullable = false)
     private String skuProduct;
 
-    @Column(nullable = true)
+    @Column()
     private int rating;
 
     @Column(nullable = false)
     private String funFact;
 
-    @Column(nullable = true)
+    @Column()
     private Long userId;
 
     public Review() {

@@ -1,16 +1,12 @@
 package com.Review1_Q.Review1_Q.controller;
 
-
-import com.Review1_Q.Review1_Q.model.RatingFrequency;
 import com.Review1_Q.Review1_Q.model.Review;
 import com.Review1_Q.Review1_Q.services.ReviewService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -21,7 +17,7 @@ public class ReviewController {
     private ReviewService service;
 
     @GetMapping(value = "/{reviewId}")
-    public ResponseEntity<Review> findOne(@PathVariable("reviewId") final String reviewId) throws IOException, InterruptedException {
+    public ResponseEntity<Review> findOne(@PathVariable("reviewId") final String reviewId){
         Review review = service.getReviewById(reviewId);
         if (review==null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found");
@@ -31,7 +27,7 @@ public class ReviewController {
 
 
     @GetMapping(value = "/")
-    public List<Review> getAllReviews() throws IOException, InterruptedException {
+    public List<Review> getAllReviews(){
         return service.getAllReviews();
     }
 
@@ -41,7 +37,7 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/{sku}/product")
-    public List<Review> getAllReviewsBySku(@PathVariable("sku")final String sku) throws IOException, InterruptedException {
+    public List<Review> getAllReviewsBySku(@PathVariable("sku")final String sku){
         return service.getAllReviewsBySku(sku);
     }
 
@@ -52,17 +48,12 @@ public class ReviewController {
     }
 
     @GetMapping(value = "/pending")
-    public Iterable<Review> getAllPendingReviews() throws IOException, InterruptedException {
+    public Iterable<Review> getAllPendingReviews(){
         return service.getAllPendingReviews();
     }
 
-    @GetMapping(value = "/{sku}/rating")
-    public RatingFrequency getRatingFrequency(@PathVariable("sku") final String sku) throws IOException, InterruptedException {
-        return service.getRatingFrequencyOfProduct(sku);
-    }
-
     @GetMapping(value = "/status/{reviewId}")
-    public String getStatus(@PathVariable ("reviewId") final String reviewId) throws IOException, InterruptedException {
+    public String getStatus(@PathVariable ("reviewId") final String reviewId){
         return service.getStatus(reviewId);
     }
 }

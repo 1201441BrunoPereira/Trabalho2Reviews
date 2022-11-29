@@ -10,7 +10,6 @@ import com.Review1_C.Review1_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,9 +31,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private JwtUtils jwtUtils;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private RabbitMQPublisher jsonProducer;
