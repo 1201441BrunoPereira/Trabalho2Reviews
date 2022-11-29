@@ -1,4 +1,4 @@
-package com.Review1_Q.Review1_Q.repository;
+package com.Review2_Q.Review2_Q.repository;
 
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Repository
-public class VoteRepository {
+public class VoteAndReviewRepository {
 
     public int getTotalVotesByReviewId(String reviewId) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();

@@ -2,9 +2,8 @@ package com.Review1_Q.Review1_Q.services;
 
 import com.Review1_Q.Review1_Q.model.RatingFrequency;
 import com.Review1_Q.Review1_Q.model.Review;
-import com.Review1_Q.Review1_Q.repository.Review2Repository;
 import com.Review1_Q.Review1_Q.repository.ReviewRepository;
-import com.Review1_Q.Review1_Q.repository.VoteRepository;
+import com.Review1_Q.Review1_Q.repository.VoteAndReviewRepository;
 import com.Review1_Q.Review1_Q.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,68 +21,47 @@ public class ReviewServiceImpl implements ReviewService {
     private ReviewRepository repository;
 
     @Autowired
-    private Review2Repository repository2;
-    @Autowired
-    private VoteRepository voteRepository;
+    private VoteAndReviewRepository voteAndReviewRepository;
 
     @Autowired
     private JwtUtils jwtUtils;
 
     @Override
     public Review getReviewById(String reviewId) throws IOException, InterruptedException {
-        Review review = repository.getReviewById(reviewId);
-        if(review == null){
-            return repository2.getReviewById(reviewId);
-        }
-        return review;
+        return repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
     }
 
-    @Override
-    public Review internalGetReviewById(String reviewId) {
-        return repository.getReviewById(reviewId);
-    }
 
     @Override
     public List<Review> getAllReviewsBySku(String sku) throws IOException, InterruptedException {
-        List<Review> reviews = repository.getReviewsByProduct(sku);
-        if (reviews.isEmpty()){
-            return repository2.getReviewsBySku(sku);
-        }
-        return reviews;
+        return repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
-    @Override
-    public List<Review> internalGetAllReviewsBySku(String sku){
-        return repository.getReviewsByProduct(sku);
-    }
 
     @Override
     public List<Review> getAllReviews(){
-        return repository.getAllReviews();
+        return repository.getAllReviews().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
     @Override
     public List<Review> getAllPendingReviews(){
-        return repository.getAllPendingReviews();
+        return repository.getAllPendingReviews().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"There is no review pending"));
     }
 
     @Override
     public List<Review> getAllMyReviews(){
         Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
-        return repository.getAllMyReviews(userId);
+        return repository.getAllMyReviews(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
     @Override
     public List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException {
-        List<Review> reviewsProduct = repository.getReviewsByProduct(sku);
-        if (reviewsProduct.isEmpty()){
-            reviewsProduct = repository2.getReviewsBySku(sku);
-        }
+        List<Review> reviewsProduct = repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         List<Review> reviewsOrderByVote = new ArrayList<>();
         int sizeList = reviewsProduct.size();
         Map<String,Integer> votesByReview = new HashMap<String,Integer>();
         for(int i=0; i<sizeList; i++){
-            var votes = voteRepository.getTotalVotesByReviewId(reviewsProduct.get(i).getReviewId());
+            var votes = voteAndReviewRepository.getTotalVotesByReviewId(reviewsProduct.get(i).getReviewId());
             votesByReview.put(reviewsProduct.get(i).getReviewId(), votes);
         }
 
@@ -111,7 +89,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public RatingFrequency getRatingFrequencyOfProduct(String sku) throws IOException, InterruptedException {
 
-        List<Review> reviews = Stream.concat(repository.getReviewsByProduct(sku).stream(), repository2.getReviewsBySku(sku).stream()).collect(Collectors.toList());
+        List<Review> reviews = repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
         int rating;
         int one=0, two=0, three=0, four=0, five=0;
         for (int i=0; i< reviews.size(); i++){
@@ -144,10 +122,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public String getStatus(String reviewId) throws IOException, InterruptedException {
-        Review review = repository.getReviewById(reviewId);
-        if(review == null){
-            review = repository2.getReviewById(reviewId);
-        }
+        Review review = repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         return review.getStatus();
     }
 

@@ -12,7 +12,6 @@ public interface ReviewService {
 
     Review getReviewById(String reviewId) throws IOException, InterruptedException;
 
-    Review internalGetReviewById(String reviewId);
 
     List<Review> getAllReviews() throws IOException, InterruptedException;
 
@@ -20,7 +19,6 @@ public interface ReviewService {
 
     List<Review> getAllReviewsBySku(String sku) throws IOException, InterruptedException;
 
-    List<Review> internalGetAllReviewsBySku(String sku);
 
     List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException;
 
