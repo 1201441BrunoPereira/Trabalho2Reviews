@@ -1,5 +1,8 @@
 package com.Review1_C.Review1_C.model;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -87,10 +90,10 @@ public class Review {
 
     public void setText(final String text) {
         if (text.length()>2048){
-            throw new IllegalArgumentException("Review Text Length is too big");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text Length is too big");
         }
         if (text.trim().length()==0){
-            throw new IllegalArgumentException("Review Text cannot be white spaces");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text cannot be white spaces");
         }
         this.text = text;
     }
@@ -101,7 +104,7 @@ public class Review {
 
     public void setRating(int rating){
         if (rating<0 || rating>5 ){
-            throw new IllegalArgumentException("Rating out of range");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Rating out of range");
         }
         this.rating = rating;
     }
@@ -149,7 +152,7 @@ public class Review {
         return  reviewId;
     }
 
-    public void getFunFactResponse(Date date) {
+    public static String getFunFactResponse(Date date) {
         String response;
         String finalResponse;
         String[] parts;
@@ -177,28 +180,24 @@ public class Review {
             finalResponse = response.substring(11);
             parts = finalResponse.split("\\.\",");
             part1 = parts[0];
-            setFunFact(part1);
+            return part1;
         }catch (IOException e){
-            e.printStackTrace();
+            throw new IllegalArgumentException("FunFact not acquired");
         }
     }
 
     public static Review newFrom(final ReviewDTO rev, final Long userId) {
         final Review obj = new Review();
         long millis = System.currentTimeMillis();
-        if(!rev.getText().isEmpty() || rev.getRating() != 0){
-            obj.reviewId = generateUUID();
-            obj.skuProduct = rev.sku;
-            obj.status = "PENDING";
-            obj.date = new Date(millis);
-            obj.rating = rev.rating;
-            obj.text = rev.text;
-            obj.getFunFactResponse(obj.date);
-            return new Review(obj.reviewId, obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
-        }
-        else{
-            return obj;
-        }
+        obj.setReviewId(generateUUID());
+        obj.setSkuProduct(rev.sku);
+        obj.setStatus("PENDING");
+        obj.setDate(new Date(millis));
+        obj.setRating(rev.rating);
+        obj.setText(rev.text);
+        obj.setFunFact(getFunFactResponse(obj.date));
+        obj.setUserId(userId);
+        return obj;
     }
 
 

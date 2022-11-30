@@ -1,7 +1,5 @@
 package com.Review2_C.Review2_C.controller;
 
-
-
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.ReviewDTO;
 import com.Review2_C.Review2_C.services.ReviewService;
@@ -24,7 +22,7 @@ public class ReviewController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Review> createReview(@RequestBody final ReviewDTO rev) throws IOException, InterruptedException {
-        return new ResponseEntity<Review>(service.create(rev), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(rev), HttpStatus.CREATED);
     }
 
 

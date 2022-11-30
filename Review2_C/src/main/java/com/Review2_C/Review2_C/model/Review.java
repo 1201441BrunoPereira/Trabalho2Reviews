@@ -1,7 +1,10 @@
 package com.Review2_C.Review2_C.model;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
-
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,8 +13,6 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "reviews")
@@ -22,7 +23,7 @@ public class Review {
     @Column(name = "ID", nullable = false, length = 36)
     private String reviewId ;
 
-    @Column(nullable = true)
+    @Column()
     @Size(max = 2048)
     private String text;
 
@@ -36,26 +37,26 @@ public class Review {
     @Column(nullable = false)
     private String skuProduct;
 
-    @Column(nullable = true)
+    @Column()
     private int rating;
 
     @Column(nullable = false)
     private String funFact;
 
-    @Column(nullable = true)
+    @Column()
     private Long userId;
 
     public Review() {
     }
 
-    private Review(final String skuProduct,final String status,final Date date, final String text) {
+    private Review(final String skuProduct, final String status, final Date date, final String text) {
         setStatus(status);
         setDate(date);
         setText(text);
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact, final Long userId) {
+    private Review(final String reviewId, final String skuProduct, final String status, final Date date, final String text, final int rating, final String funFact, final Long userId) {
         setReviewId(reviewId);
         setStatus(status);
         setDate(date);
@@ -89,10 +90,10 @@ public class Review {
 
     public void setText(final String text) {
         if (text.length()>2048){
-            throw new IllegalArgumentException("Review Text Length is too big");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text Length is too big");
         }
         if (text.trim().length()==0){
-            throw new IllegalArgumentException("Review Text cannot be white spaces");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text cannot be white spaces");
         }
         this.text = text;
     }
@@ -103,7 +104,7 @@ public class Review {
 
     public void setRating(int rating){
         if (rating<0 || rating>5 ){
-            throw new IllegalArgumentException("Rating out of range");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Rating out of range");
         }
         this.rating = rating;
     }
@@ -151,7 +152,7 @@ public class Review {
         return  reviewId;
     }
 
-    public void getFunFactResponse(Date date) {
+    public static String getFunFactResponse(Date date) {
         String response;
         String finalResponse;
         String[] parts;
@@ -179,28 +180,24 @@ public class Review {
             finalResponse = response.substring(11);
             parts = finalResponse.split("\\.\",");
             part1 = parts[0];
-            setFunFact(part1);
+            return part1;
         }catch (IOException e){
-            e.printStackTrace();
+            throw new IllegalArgumentException("FunFact not acquired");
         }
     }
 
     public static Review newFrom(final ReviewDTO rev, final Long userId) {
         final Review obj = new Review();
         long millis = System.currentTimeMillis();
-        if(!rev.getText().isEmpty() || rev.getRating() != 0){
-            obj.reviewId = generateUUID();
-            obj.skuProduct = rev.sku;
-            obj.status = "PENDING";
-            obj.date = new Date(millis);
-            obj.rating = rev.rating;
-            obj.text = rev.text;
-            obj.getFunFactResponse(obj.date);
-            return new Review(obj.reviewId, obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
-        }
-        else{
-            return obj;
-        }
+        obj.setReviewId(generateUUID());
+        obj.setSkuProduct(rev.sku);
+        obj.setStatus("PENDING");
+        obj.setDate(new Date(millis));
+        obj.setRating(rev.rating);
+        obj.setText(rev.text);
+        obj.setFunFact(getFunFactResponse(obj.date));
+        obj.setUserId(userId);
+        return obj;
     }
 
 
