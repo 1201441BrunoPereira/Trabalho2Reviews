@@ -1,0 +1,13 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autoactivate on
+autonumber
+
+participant ":UIReview_Q" as rev
+participant ":Review_Q" as rev1
+
+rev -> rev1: GET/myReviews
+rev1 --> rev: Iterable<reviews>
+
+@enduml

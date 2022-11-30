@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+autoactivate on
+autonumber
+
+actor "User" as User
+participant ":UIReview_Q" as rev1
+
+activate User
+
+User -> rev1: GET/reviews/{reviewId}
+rev1 --> User: Review
+User -> rev1: GET/reviews/pending
+rev1 --> User: Iterable<reviews>
+User -> rev1: GET/reviews/
+rev1 --> User: List<reviews>
+User -> rev1: GET/{skuProducts}/votes
+rev1 --> User: Iterable<Review>
+User -> rev1: GET/reviews/status/{reviewId}
+rev1 --> User: String
+User -> rev1: GET/myReviews
+rev1 --> User: Iterable<Review>
+@enduml

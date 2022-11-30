@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autoactivate on
+autonumber
+
+participant ":AMQP Broker" as bro
+participant ":Review_Q" as rev1
+
+bro -> rev1: review.changedStatus
+rev1 --> bro:
+@enduml
