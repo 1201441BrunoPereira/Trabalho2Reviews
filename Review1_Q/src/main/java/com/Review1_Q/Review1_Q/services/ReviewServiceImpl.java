@@ -1,6 +1,5 @@
 package com.Review1_Q.Review1_Q.services;
 
-import com.Review1_Q.Review1_Q.model.RatingFrequency;
 import com.Review1_Q.Review1_Q.model.Review;
 import com.Review1_Q.Review1_Q.repository.ReviewRepository;
 import com.Review1_Q.Review1_Q.repository.VoteAndReviewRepository;
@@ -9,11 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -27,13 +24,13 @@ public class ReviewServiceImpl implements ReviewService {
     private JwtUtils jwtUtils;
 
     @Override
-    public Review getReviewById(String reviewId) throws IOException, InterruptedException {
+    public Review getReviewById(String reviewId){
         return repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
     }
 
 
     @Override
-    public List<Review> getAllReviewsBySku(String sku) throws IOException, InterruptedException {
+    public List<Review> getAllReviewsBySku(String sku){
         return repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
@@ -87,41 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public RatingFrequency getRatingFrequencyOfProduct(String sku) throws IOException, InterruptedException {
-
-        List<Review> reviews = repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
-        int rating;
-        int one=0, two=0, three=0, four=0, five=0;
-        for (int i=0; i< reviews.size(); i++){
-            rating=reviews.get(i).getRating();
-            if (rating == 1){
-                one = one + 1;
-            }
-            else if (rating == 2){
-                two = two + 1;
-            }
-            else if (rating == 3){
-                three = three + 1;
-            }
-            else if (rating == 4){
-                four = four + 1;
-            }
-            else if (rating == 5){
-                five = five + 1;
-            }
-        }
-        int some = one+two+three+four+five;
-        float globalRating;
-        if (some != 0) {
-            globalRating = (one + two * 2 + three * 3 + four * 4 + five * 5) / some;
-        }else{
-            globalRating = 0;
-        }
-        return new RatingFrequency(one, two, three, four, five, globalRating);
-    }
-
-    @Override
-    public String getStatus(String reviewId) throws IOException, InterruptedException {
+    public String getStatus(String reviewId){
         Review review = repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         return review.getStatus();
     }

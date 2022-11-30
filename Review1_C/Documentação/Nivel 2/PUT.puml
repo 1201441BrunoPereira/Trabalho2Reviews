@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autoactivate on
+autonumber
+
+participant ":UIReview_C" as rev1
+participant ":AMQP Broker" as bro
+participant ":Review1" as rev
+
+rev1 -> rev: PUT/{reviewId}/approve/{reviewStatus}
+rev --> rev1: String
+rev --> bro: review.changedStatus
+@enduml

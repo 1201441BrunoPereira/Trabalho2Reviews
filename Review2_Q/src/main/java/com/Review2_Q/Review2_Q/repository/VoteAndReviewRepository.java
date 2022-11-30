@@ -1,7 +1,6 @@
 package com.Review2_Q.Review2_Q.repository;
 
 import org.springframework.stereotype.Repository;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

@@ -1,8 +1,5 @@
 package com.Review2_Q.Review2_Q.model;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,12 +15,11 @@ import javax.validation.constraints.Size;
 @Table(name = "reviews")
 public class Review {
 
-
     @Id
     @Column(name = "ID", nullable = false, length = 36)
     private String reviewId ;
 
-    @Column(nullable = true)
+    @Column()
     @Size(max = 2048)
     private String text;
 
@@ -37,13 +33,13 @@ public class Review {
     @Column(nullable = false)
     private String skuProduct;
 
-    @Column(nullable = true)
+    @Column()
     private int rating;
 
     @Column(nullable = false)
     private String funFact;
 
-    @Column(nullable = true)
+    @Column()
     private Long userId;
 
     public Review() {
@@ -186,23 +182,6 @@ public class Review {
         }
     }
 
-    public static Review newFrom(final ReviewDTO rev, final Long userId) {
-        final Review obj = new Review();
-        long millis = System.currentTimeMillis();
-        if(!rev.getText().isEmpty() || rev.getRating() != 0){
-            obj.reviewId = generateUUID();
-            obj.skuProduct = rev.sku;
-            obj.status = "PENDING";
-            obj.date = new Date(millis);
-            obj.rating = rev.rating;
-            obj.text = rev.text;
-            obj.getFunFactResponse(obj.date);
-            return new Review(obj.reviewId, obj.skuProduct, obj.status, obj.date, obj.text, obj.rating, obj.funFact, userId);
-        }
-        else{
-            return obj;
-        }
-    }
 
 
 

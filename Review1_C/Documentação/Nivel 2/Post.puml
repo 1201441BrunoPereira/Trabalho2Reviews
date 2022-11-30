@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autoactivate on
+autonumber
+
+participant ":UIReview_C" as rev1
+participant ":AMQP Broker" as bro
+participant ":Review1" as rev
+participant ":Product" as prod
+
+
+rev1 -> rev: POST/reviews
+rev -> prod: GET/8080/products?sku={sku}
+prod --> rev : isPresent
+rev --> rev1: Review
+rev -->bro: review.created
+
+@enduml
