@@ -19,4 +19,6 @@ public interface ReviewService {
 
     Boolean deleteReview(String reviewId) throws IOException, InterruptedException;
 
+    void addProduct(String sku);
+
 }

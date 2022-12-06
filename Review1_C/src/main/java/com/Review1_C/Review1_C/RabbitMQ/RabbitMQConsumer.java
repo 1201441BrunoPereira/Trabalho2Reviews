@@ -1,7 +1,10 @@
 package com.Review1_C.Review1_C.RabbitMQ;
 
+import com.Review1_C.Review1_C.model.ProductDTO;
 import com.Review1_C.Review1_C.model.Review;
+import com.Review1_C.Review1_C.repository.ProductRepository;
 import com.Review1_C.Review1_C.repository.ReviewRepository;
+import com.Review1_C.Review1_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,6 +16,10 @@ public class RabbitMQConsumer {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewService reviewService;
+
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
@@ -37,5 +44,12 @@ public class RabbitMQConsumer {
         reviewRepository.save(rv);
         System.out.println(review);
     }
+
+    @RabbitListener(queues =  "#{autoDeleteQueue4.name}")
+    public void consumeJsonMessageToCreateProduct(String sku){
+        reviewService.addProduct(sku);
+        System.out.println(sku);
+    }
+
 
 }

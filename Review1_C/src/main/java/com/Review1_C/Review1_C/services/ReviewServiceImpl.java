@@ -1,6 +1,7 @@
 package com.Review1_C.Review1_C.services;
 
 import com.Review1_C.Review1_C.RabbitMQ.RabbitMQPublisher;
+import com.Review1_C.Review1_C.model.ProductDTO;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.repository.ProductRepository;
@@ -36,16 +37,19 @@ public class ReviewServiceImpl implements ReviewService {
     private RabbitMQPublisher jsonProducer;
 
     @Override
-    public Review create(ReviewDTO rev) throws IOException, InterruptedException {
-        boolean isPresent = productRepository.isPresent(rev.getSku());
-        if(isPresent){
-            Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
-            final Review obj = Review.newFrom(rev,userId);
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(obj);
-            jsonProducer.sendJsonMessageToCreate(json);
-            repository.save(obj);
-            return obj;
+    public Review create(ReviewDTO rev) throws JsonProcessingException {
+        if(productRepository.getProductDTOBySku(rev.getSku()) !=null){
+            try {
+                Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
+                final Review obj = Review.newFrom(rev,userId);
+                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                String json = ow.writeValueAsString(obj);
+                jsonProducer.sendJsonMessageToCreate(json);
+                repository.save(obj);
+                return obj;
+            }catch (IllegalArgumentException e){
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "You are not logged");
+            }
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product doesn't exist");
         }
@@ -94,6 +98,12 @@ public class ReviewServiceImpl implements ReviewService {
             return true;
         }else
             return false;
+    }
+
+    @Override
+    public void addProduct(String sku){
+        ProductDTO productDTO = new ProductDTO(sku);
+        productRepository.save(productDTO);
     }
 
 }

@@ -2,6 +2,7 @@ package com.Review2_C.Review2_C.services;
 
 
 import com.Review2_C.Review2_C.RabbitMQ.RabbitMQPublisher;
+import com.Review2_C.Review2_C.model.ProductDTO;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.repository.ProductRepository;
 import com.Review2_C.Review2_C.repository.ReviewRepository;
@@ -11,7 +12,6 @@ import com.Review2_C.Review2_C.model.ReviewDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -35,22 +35,22 @@ public class ReviewServiceImpl implements ReviewService {
     private JwtUtils jwtUtils;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Autowired
     private RabbitMQPublisher jsonProducer;
 
     @Override
-    public Review create(ReviewDTO rev) throws IOException, InterruptedException {
-        boolean isPresent = productRepository.isPresent(rev.getSku());
-        if(isPresent){
-            Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
-            final Review obj = Review.newFrom(rev,userId);
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(obj);
-            jsonProducer.sendJsonMessageToCreate(json);
-            repository.save(obj);
-            return obj;
+    public Review create(ReviewDTO rev) throws JsonProcessingException {
+        if(productRepository.getProductDTOBySku(rev.getSku()) !=null){
+            try {
+                Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
+                final Review obj = Review.newFrom(rev,userId);
+                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+                String json = ow.writeValueAsString(obj);
+                jsonProducer.sendJsonMessageToCreate(json);
+                repository.save(obj);
+                return obj;
+            }catch (IllegalArgumentException e){
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "You are not logged");
+            }
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product doesn't exist");
         }
@@ -101,6 +101,12 @@ public class ReviewServiceImpl implements ReviewService {
             return false;
     }
 
+
+    @Override
+    public void addProduct(String sku){
+        ProductDTO productDTO = new ProductDTO(sku);
+        productRepository.save(productDTO);
+    }
 }
 
 
