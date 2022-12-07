@@ -21,6 +21,9 @@ public class RabbitMQConsumer {
     @Autowired
     private ReviewService reviewService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
@@ -49,7 +52,7 @@ public class RabbitMQConsumer {
     @RabbitListener(queues =  "#{autoDeleteQueue4.name}")
     public void consumeJsonMessageToCreateProduct(String product){
         ProductDTO pt = ProductDTO.readJson(product);
-        reviewService.addProduct(pt);
+        productRepository.save(pt);
         System.out.println(pt.getSku());
     }
 
