@@ -4,6 +4,7 @@ package com.Review2_C.Review2_C.RabbitMQ;
 import com.Review2_C.Review2_C.model.ProductDTO;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.VoteDTO;
+import com.Review2_C.Review2_C.repository.ProductRepository;
 import com.Review2_C.Review2_C.repository.ReviewRepository;
 import com.Review2_C.Review2_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -56,7 +57,7 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues =  "#{autoDeleteQueue5.name}")
-    public void consumeJsonMessageToUpdateReviewVote(String vote) throws JsonProcessingException {
+    public void consumeJsonMessageToUpdateReviewVote(String vote){
         VoteDTO vt = VoteDTO.readJson(vote);
         reviewService.upVote(vt);
         System.out.println(vote);

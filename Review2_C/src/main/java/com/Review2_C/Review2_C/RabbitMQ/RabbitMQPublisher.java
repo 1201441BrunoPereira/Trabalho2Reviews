@@ -21,19 +21,11 @@ public class RabbitMQPublisher {
     private FanoutExchange fanoutCreate;
 
     @Autowired
-    private FanoutExchange fanoutCreateForVote;
-
-    @Autowired
     private FanoutExchange fanoutDelete;
-
-    @Autowired
-    private FanoutExchange fanoutDeleteForVote;
 
     @Autowired
     private FanoutExchange fanoutChangeStatus;
 
-    @Autowired
-    private FanoutExchange fanoutChangeStatusForVote;
 
     public void sendJsonMessageToCreate(Review review) throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -41,23 +33,10 @@ public class RabbitMQPublisher {
         template.convertAndSend(fanoutCreate.getName(), "", json);
     }
 
-    public void sendJsonMessageToCreateForVote(Review review) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        ReviewForVoteDTO rev = new ReviewForVoteDTO(review.getReviewId(), false);
-        String json = ow.writeValueAsString(rev);
-        template.convertAndSend(fanoutCreateForVote.getName(), "", json);
-    }
     public void sendJsonMessageToDelete(Review review) throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(review);
         template.convertAndSend(fanoutDelete.getName(), "", json);
-    }
-
-    public void sendJsonMessageToDeleteForVote(Review review) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        ReviewForVoteDTO rev = new ReviewForVoteDTO(review.getReviewId(), false);
-        String json = ow.writeValueAsString(rev);
-        template.convertAndSend(fanoutDeleteForVote.getName(), "", json);
     }
 
     public void sendJsonMessageToChangeStatus(Review review) throws JsonProcessingException {
@@ -66,13 +45,5 @@ public class RabbitMQPublisher {
         template.convertAndSend(fanoutChangeStatus.getName(), "", json);
     }
 
-    public void sendJsonMessageToChangeStatusForVote(Review review) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        boolean approved;
-        approved = Objects.equals(review.getStatus(), "APPROVED");
-        ReviewForVoteDTO rev = new ReviewForVoteDTO(review.getReviewId(), approved);
-        String json = ow.writeValueAsString(rev);
-        template.convertAndSend(fanoutChangeStatusForVote.getName(), "", json);
-    }
 
 }
