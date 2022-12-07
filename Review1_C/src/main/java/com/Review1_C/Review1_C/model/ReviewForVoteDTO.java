@@ -1,7 +1,10 @@
 package com.Review1_C.Review1_C.model;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
+
 
 public class ReviewForVoteDTO {
     @Id

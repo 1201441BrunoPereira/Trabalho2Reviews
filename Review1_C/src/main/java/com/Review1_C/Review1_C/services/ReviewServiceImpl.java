@@ -7,7 +7,6 @@ import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.model.VoteDTO;
 import com.Review1_C.Review1_C.repository.ProductRepository;
 import com.Review1_C.Review1_C.repository.ReviewRepository;
-import com.Review1_C.Review1_C.repository.VoteRepository;
 import com.Review1_C.Review1_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
-    private VoteRepository voteRepository;
 
     @Autowired
     private JwtUtils jwtUtils;

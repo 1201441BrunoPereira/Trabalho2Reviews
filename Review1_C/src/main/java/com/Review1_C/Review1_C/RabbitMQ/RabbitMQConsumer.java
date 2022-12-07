@@ -47,9 +47,10 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues =  "#{autoDeleteQueue4.name}")
-    public void consumeJsonMessageToCreateProduct(String sku){
-        reviewService.addProduct(sku);
-        System.out.println(sku);
+    public void consumeJsonMessageToCreateProduct(String product){
+        ProductDTO pt = ProductDTO.readJson(product);
+        reviewService.addProduct(pt);
+        System.out.println(pt.getSku());
     }
 
     @RabbitListener(queues =  "#{autoDeleteQueue5.name}")

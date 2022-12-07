@@ -54,7 +54,7 @@ public class RabbitMQConfig {
 
     @Bean
     public FanoutExchange fanoutCreateProduct(){
-        return new FanoutExchange("product.created.review");
+        return new FanoutExchange("product.created");
     }
     @Bean
     public FanoutExchange fanoutVoteCreated() {
