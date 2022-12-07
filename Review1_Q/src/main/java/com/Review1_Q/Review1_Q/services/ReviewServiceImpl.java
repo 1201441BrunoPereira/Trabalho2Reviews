@@ -1,6 +1,7 @@
 package com.Review1_Q.Review1_Q.services;
 
 import com.Review1_Q.Review1_Q.model.Review;
+import com.Review1_Q.Review1_Q.model.VoteDTO;
 import com.Review1_Q.Review1_Q.repository.ReviewRepository;
 import com.Review1_Q.Review1_Q.repository.VoteAndReviewRepository;
 import com.Review1_Q.Review1_Q.security.JwtUtils;
@@ -51,7 +52,12 @@ public class ReviewServiceImpl implements ReviewService {
         return repository.getAllMyReviews(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
-    @Override
+    public List<Review> getReviewsByProductOrderByVotes(String sku){
+        return repository.getReviewsOrderByVotes(sku);
+    }
+
+
+    /*@Override
     public List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException {
         List<Review> reviewsProduct = repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         List<Review> reviewsOrderByVote = new ArrayList<>();
@@ -81,12 +87,21 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewsOrderByVote;
-    }
+    }*/
+
+
 
     @Override
     public String getStatus(String reviewId){
         Review review = repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         return review.getStatus();
+    }
+
+    @Override
+    public void upVote(VoteDTO vote){
+        Review rv = repository.getReview(vote.getReviewId());
+        rv.upVote(vote.isVote());
+        repository.save(rv);
     }
 
 }

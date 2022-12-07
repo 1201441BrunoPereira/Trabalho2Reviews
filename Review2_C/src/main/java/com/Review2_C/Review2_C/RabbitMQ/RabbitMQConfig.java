@@ -13,13 +13,28 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public FanoutExchange fanoutCreateForVote() {
+        return new FanoutExchange("review2.created.vote");
+    }
+
+    @Bean
     public FanoutExchange fanoutDelete() {
         return new FanoutExchange("review2.deleted");
     }
 
     @Bean
+    public FanoutExchange fanoutDeleteForVote() {
+        return new FanoutExchange("review2.deleted.vote");
+    }
+
+    @Bean
     public FanoutExchange fanoutChangeStatus() {
         return new FanoutExchange("review2.changedStatus");
+    }
+
+    @Bean
+    public FanoutExchange fanoutChangeStatusForVote() {
+        return new FanoutExchange("review1.changedStatus.vote");
     }
 
     @Bean
@@ -43,6 +58,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public FanoutExchange fanoutVoteCreated() {
+        return new FanoutExchange("vote.created.review");
+    }
+
+    @Bean
     public Queue autoDeleteQueue1() {
         return new AnonymousQueue();
     }
@@ -59,6 +79,11 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue autoDeleteQueue4() {
+        return new AnonymousQueue();
+    }
+
+    @Bean
+    public Queue autoDeleteQueue5() {
         return new AnonymousQueue();
     }
 
@@ -80,6 +105,10 @@ public class RabbitMQConfig {
     @Bean
     public Binding binding4(FanoutExchange fanoutCreateProduct, Queue autoDeleteQueue4){
         return BindingBuilder.bind(autoDeleteQueue4).to(fanoutCreateProduct);
+    }
+    @Bean
+    public Binding binding5(FanoutExchange fanoutVoteCreated, Queue autoDeleteQueue5){
+        return BindingBuilder.bind(autoDeleteQueue5).to(fanoutVoteCreated);
     }
 
 }

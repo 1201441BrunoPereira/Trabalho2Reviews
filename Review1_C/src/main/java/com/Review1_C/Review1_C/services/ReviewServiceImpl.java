@@ -4,13 +4,12 @@ import com.Review1_C.Review1_C.RabbitMQ.RabbitMQPublisher;
 import com.Review1_C.Review1_C.model.ProductDTO;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
+import com.Review1_C.Review1_C.model.VoteDTO;
 import com.Review1_C.Review1_C.repository.ProductRepository;
 import com.Review1_C.Review1_C.repository.ReviewRepository;
 import com.Review1_C.Review1_C.repository.VoteRepository;
 import com.Review1_C.Review1_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -42,9 +41,8 @@ public class ReviewServiceImpl implements ReviewService {
             try {
                 Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
                 final Review obj = Review.newFrom(rev,userId);
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(obj);
-                jsonProducer.sendJsonMessageToCreate(json);
+                jsonProducer.sendJsonMessageToCreateForVote(obj);
+                jsonProducer.sendJsonMessageToCreate(obj);
                 repository.save(obj);
                 return obj;
             }catch (IllegalArgumentException e){
@@ -66,9 +64,8 @@ public class ReviewServiceImpl implements ReviewService {
                 } else {
                     review.setStatus("REJECTED");
                 }
-                ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-                String json = ow.writeValueAsString(review);
-                jsonProducer.sendJsonMessageToChangeStatus(json);
+                jsonProducer.sendJsonMessageToChangeStatus(review);
+                jsonProducer.sendJsonMessageToChangeStatusForVote(review);
                 repository.save(review);
                 return true;
             }else {
@@ -84,16 +81,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     public Boolean deleteReview(String reviewId) throws IOException, InterruptedException {
 
-        var votes = voteRepository.ReviewIsVoted(reviewId);
         Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
         Review review = repository.getReviewById(reviewId);
         if(review == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Review doesn't exist");
         }
-        if (votes == false && Objects.equals(review.getUserId(), userId)) {
-            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            String json = ow.writeValueAsString(review);
-            jsonProducer.sendJsonMessageToDelete(json);
+        if (review.getDownVote() == 0 && review.getUpVote() ==0 && Objects.equals(review.getUserId(), userId)) {
+            jsonProducer.sendJsonMessageToDelete(review);
+            jsonProducer.sendJsonMessageToDeleteForVote(review);
             repository.delete(review);
             return true;
         }else
@@ -104,6 +99,13 @@ public class ReviewServiceImpl implements ReviewService {
     public void addProduct(String sku){
         ProductDTO productDTO = new ProductDTO(sku);
         productRepository.save(productDTO);
+    }
+
+    @Override
+    public void upVote(VoteDTO vote){
+        Review rv = repository.getReviewById(vote.getReviewId());
+        rv.upVote(vote.isVote());
+        repository.save(rv);
     }
 
 }

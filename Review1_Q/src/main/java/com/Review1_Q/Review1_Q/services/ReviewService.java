@@ -1,6 +1,8 @@
 package com.Review1_Q.Review1_Q.services;
 
 import com.Review1_Q.Review1_Q.model.Review;
+import com.Review1_Q.Review1_Q.model.VoteDTO;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -19,5 +21,7 @@ public interface ReviewService {
     List<Review> getAllPendingReviews();
 
     String getStatus(String reviewId);
+
+    void upVote(VoteDTO vote);
 
 }

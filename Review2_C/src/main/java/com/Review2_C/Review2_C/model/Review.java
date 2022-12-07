@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,11 +12,11 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "reviews")
 public class Review {
-
 
     @Id
     @Column(name = "ID", nullable = false, length = 36)
@@ -43,20 +42,26 @@ public class Review {
     @Column(nullable = false)
     private String funFact;
 
+    @Column
+    private int upVote;
+
+    @Column
+    private int downVote;
+
     @Column()
     private Long userId;
 
     public Review() {
     }
 
-    private Review(final String skuProduct, final String status, final Date date, final String text) {
+    private Review(final String skuProduct,final String status,final Date date, final String text) {
         setStatus(status);
         setDate(date);
         setText(text);
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String reviewId, final String skuProduct, final String status, final Date date, final String text, final int rating, final String funFact, final Long userId) {
+    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact,int upVote,int downVote,final Long userId) {
         setReviewId(reviewId);
         setStatus(status);
         setDate(date);
@@ -64,6 +69,8 @@ public class Review {
         setSkuProduct(skuProduct);
         setRating(rating);
         getFunFactResponse(date);
+        setUpVote(upVote);
+        setDownVote(downVote);
         setUserId(userId);
     }
 
@@ -186,6 +193,29 @@ public class Review {
         }
     }
 
+    public int getUpVote() {
+        return upVote;
+    }
+
+    public void setUpVote(int upVote) {
+        this.upVote = upVote;
+    }
+
+    public int getDownVote() {
+        return downVote;
+    }
+
+    public void setDownVote(int downVote) {
+        this.downVote = downVote;
+    }
+
+    public void upVote(boolean vote){
+        if (vote){
+            setUpVote(getUpVote()+1);
+        }else
+            setDownVote(getDownVote()+1);
+    }
+
     public static Review newFrom(final ReviewDTO rev, final Long userId) {
         final Review obj = new Review();
         long millis = System.currentTimeMillis();
@@ -196,6 +226,8 @@ public class Review {
         obj.setRating(rev.rating);
         obj.setText(rev.text);
         obj.setFunFact(getFunFactResponse(obj.date));
+        obj.setUpVote(0);
+        obj.setDownVote(0);
         obj.setUserId(userId);
         return obj;
     }

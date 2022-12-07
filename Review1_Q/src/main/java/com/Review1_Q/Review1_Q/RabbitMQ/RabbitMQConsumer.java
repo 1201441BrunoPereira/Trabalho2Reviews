@@ -1,7 +1,9 @@
 package com.Review1_Q.Review1_Q.RabbitMQ;
 
 import com.Review1_Q.Review1_Q.model.Review;
+import com.Review1_Q.Review1_Q.model.VoteDTO;
 import com.Review1_Q.Review1_Q.repository.ReviewRepository;
+import com.Review1_Q.Review1_Q.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,6 +15,9 @@ public class RabbitMQConsumer {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreateFrom1(String review) throws JsonProcessingException {
@@ -60,6 +65,14 @@ public class RabbitMQConsumer {
         Review rv = objectMapper.readValue(review, Review.class);
         reviewRepository.save(rv);
         System.out.println("Changing review status in Database with id:" + rv.getReviewId());
+    }
+
+    @RabbitListener(queues =  "#{autoDeleteQueue7.name}")
+    public void consumeJsonMessageToUpdateReviewVote(String vote) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        VoteDTO vt = objectMapper.readValue(vote, VoteDTO.class);
+        reviewService.upVote(vt);
+        System.out.println(vote);
     }
 
 }

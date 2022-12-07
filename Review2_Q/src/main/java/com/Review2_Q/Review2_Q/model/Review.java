@@ -1,6 +1,10 @@
 package com.Review2_Q.Review2_Q.model;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,11 +13,11 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "reviews")
 public class Review {
+
 
     @Id
     @Column(name = "ID", nullable = false, length = 36)
@@ -39,6 +43,12 @@ public class Review {
     @Column(nullable = false)
     private String funFact;
 
+    @Column
+    private int upVote;
+
+    @Column
+    private int downVote;
+
     @Column()
     private Long userId;
 
@@ -52,7 +62,7 @@ public class Review {
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact, final Long userId) {
+    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact,int upVote,int downVote,final Long userId) {
         setReviewId(reviewId);
         setStatus(status);
         setDate(date);
@@ -60,6 +70,8 @@ public class Review {
         setSkuProduct(skuProduct);
         setRating(rating);
         getFunFactResponse(date);
+        setUpVote(upVote);
+        setDownVote(downVote);
         setUserId(userId);
     }
 
@@ -86,10 +98,10 @@ public class Review {
 
     public void setText(final String text) {
         if (text.length()>2048){
-            throw new IllegalArgumentException("Review Text Length is too big");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text Length is too big");
         }
         if (text.trim().length()==0){
-            throw new IllegalArgumentException("Review Text cannot be white spaces");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Review Text cannot be white spaces");
         }
         this.text = text;
     }
@@ -100,7 +112,7 @@ public class Review {
 
     public void setRating(int rating){
         if (rating<0 || rating>5 ){
-            throw new IllegalArgumentException("Rating out of range");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Rating out of range");
         }
         this.rating = rating;
     }
@@ -148,7 +160,7 @@ public class Review {
         return  reviewId;
     }
 
-    public void getFunFactResponse(Date date) {
+    public static String getFunFactResponse(Date date) {
         String response;
         String finalResponse;
         String[] parts;
@@ -176,13 +188,32 @@ public class Review {
             finalResponse = response.substring(11);
             parts = finalResponse.split("\\.\",");
             part1 = parts[0];
-            setFunFact(part1);
+            return part1;
         }catch (IOException e){
-            e.printStackTrace();
+            throw new IllegalArgumentException("FunFact not acquired");
         }
     }
 
+    public int getUpVote() {
+        return upVote;
+    }
 
+    public void setUpVote(int upVote) {
+        this.upVote = upVote;
+    }
 
+    public int getDownVote() {
+        return downVote;
+    }
 
+    public void setDownVote(int downVote) {
+        this.downVote = downVote;
+    }
+
+    public void upVote(boolean vote){
+        if (vote){
+            setUpVote(getUpVote()+1);
+        }else
+            setDownVote(getDownVote()+1);
+    }
 }

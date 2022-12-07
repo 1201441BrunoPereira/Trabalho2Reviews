@@ -1,6 +1,8 @@
 package com.Review2_Q.Review2_Q.services;
 
+
 import com.Review2_Q.Review2_Q.model.Review;
+import com.Review2_Q.Review2_Q.model.VoteDTO;
 import com.Review2_Q.Review2_Q.repository.ReviewRepository;
 import com.Review2_Q.Review2_Q.repository.VoteAndReviewRepository;
 import com.Review2_Q.Review2_Q.security.JwtUtils;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,9 +27,10 @@ public class ReviewServiceImpl implements ReviewService {
     private JwtUtils jwtUtils;
 
     @Override
-    public Review getReviewById(String reviewId) {
-        return repository.getReviewById(reviewId);
+    public Review getReviewById(String reviewId){
+        return repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
     }
+
 
     @Override
     public List<Review> getAllReviewsBySku(String sku){
@@ -50,7 +54,11 @@ public class ReviewServiceImpl implements ReviewService {
         return repository.getAllMyReviews(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
 
-    @Override
+    public List<Review> getReviewsByProductOrderByVotes(String sku){
+        return repository.getReviewsOrderByVotes(sku);
+    }
+
+    /*@Override
     public List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException {
         List<Review> reviewsProduct = repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         List<Review> reviewsOrderByVote = new ArrayList<>();
@@ -80,12 +88,19 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return reviewsOrderByVote;
-    }
+    }*/
 
     @Override
     public String getStatus(String reviewId){
-        Review review = repository.getReviewById(reviewId);
+        Review review = repository.getReviewById(reviewId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Review not found"));
         return review.getStatus();
+    }
+
+    @Override
+    public void upVote(VoteDTO vote){
+        Review rv = repository.getReview(vote.getReviewId());
+        rv.upVote(vote.isVote());
+        repository.save(rv);
     }
 
 }

@@ -43,6 +43,12 @@ public class Review {
     @Column(nullable = false)
     private String funFact;
 
+    @Column
+    private int upVote;
+
+    @Column
+    private int downVote;
+
     @Column()
     private Long userId;
 
@@ -56,7 +62,7 @@ public class Review {
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact, final Long userId) {
+    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact,int upVote,int downVote,final Long userId) {
         setReviewId(reviewId);
         setStatus(status);
         setDate(date);
@@ -64,6 +70,8 @@ public class Review {
         setSkuProduct(skuProduct);
         setRating(rating);
         getFunFactResponse(date);
+        setUpVote(upVote);
+        setDownVote(downVote);
         setUserId(userId);
     }
 
@@ -186,6 +194,29 @@ public class Review {
         }
     }
 
+    public int getUpVote() {
+        return upVote;
+    }
+
+    public void setUpVote(int upVote) {
+        this.upVote = upVote;
+    }
+
+    public int getDownVote() {
+        return downVote;
+    }
+
+    public void setDownVote(int downVote) {
+        this.downVote = downVote;
+    }
+
+    public void upVote(boolean vote){
+        if (vote){
+            setUpVote(getUpVote()+1);
+        }else
+            setDownVote(getDownVote()+1);
+    }
+
     public static Review newFrom(final ReviewDTO rev, final Long userId) {
         final Review obj = new Review();
         long millis = System.currentTimeMillis();
@@ -196,6 +227,8 @@ public class Review {
         obj.setRating(rev.rating);
         obj.setText(rev.text);
         obj.setFunFact(getFunFactResponse(obj.date));
+        obj.setUpVote(0);
+        obj.setDownVote(0);
         obj.setUserId(userId);
         return obj;
     }
