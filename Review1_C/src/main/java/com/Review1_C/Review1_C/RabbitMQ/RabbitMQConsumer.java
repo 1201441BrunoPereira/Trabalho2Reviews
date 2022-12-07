@@ -58,8 +58,7 @@ public class RabbitMQConsumer {
 
     @RabbitListener(queues =  "#{autoDeleteQueue5.name}")
     public void consumeJsonMessageToUpdateReviewVote(String vote) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        VoteDTO vt = objectMapper.readValue(vote, VoteDTO.class);
+        VoteDTO vt = VoteDTO.readJson(vote);
         reviewService.upVote(vt);
         System.out.println(vote);
     }

@@ -1,5 +1,7 @@
 package com.Review2_C.Review2_C.model;
 
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -26,5 +28,20 @@ public class ProductDTO {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public static ProductDTO readJson(String json){
+        ProductDTO productDTO = new ProductDTO();
+        try{
+
+            JSONObject object = new JSONObject(json);
+            String sku = object.getString("sku");
+            productDTO.setSku(sku);
+
+        }catch(Exception e) {
+            System.out.println("Error in Result as " + e.toString());
+        }
+
+        return productDTO;
     }
 }

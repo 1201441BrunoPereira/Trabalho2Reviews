@@ -1,6 +1,7 @@
 package com.Review2_C.Review2_C.RabbitMQ;
 
 
+import com.Review2_C.Review2_C.model.ProductDTO;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.VoteDTO;
 import com.Review2_C.Review2_C.repository.ReviewRepository;
@@ -19,6 +20,9 @@ public class RabbitMQConsumer {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
@@ -46,14 +50,15 @@ public class RabbitMQConsumer {
 
     @RabbitListener(queues =  "#{autoDeleteQueue4.name}")
     public void consumeJsonMessageToCreateProduct(String sku){
-        reviewService.addProduct(sku);
+        ProductDTO pt = ProductDTO.readJson(product);
+        productRepository.save(pt);
+        System.out.println(pt.getSku());
         System.out.println(sku);
     }
 
     @RabbitListener(queues =  "#{autoDeleteQueue5.name}")
     public void consumeJsonMessageToUpdateReviewVote(String vote) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        VoteDTO vt = objectMapper.readValue(vote, VoteDTO.class);
+        VoteDTO vt = VoteDTO.readJson(vote);
         reviewService.upVote(vt);
         System.out.println(vote);
     }
