@@ -38,7 +38,6 @@ public class ReviewServiceImpl implements ReviewService {
             try {
                 Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
                 final Review obj = Review.newFrom(rev,userId);
-                jsonProducer.sendJsonMessageToCreateForVote(obj);
                 jsonProducer.sendJsonMessageToCreate(obj);
                 repository.save(obj);
                 return obj;
@@ -62,7 +61,6 @@ public class ReviewServiceImpl implements ReviewService {
                     review.setStatus("REJECTED");
                 }
                 jsonProducer.sendJsonMessageToChangeStatus(review);
-                jsonProducer.sendJsonMessageToChangeStatusForVote(review);
                 repository.save(review);
                 return true;
             }else {
@@ -85,7 +83,6 @@ public class ReviewServiceImpl implements ReviewService {
         }
         if (review.getDownVote() == 0 && review.getUpVote() ==0 && Objects.equals(review.getUserId(), userId)) {
             jsonProducer.sendJsonMessageToDelete(review);
-            jsonProducer.sendJsonMessageToDeleteForVote(review);
             repository.delete(review);
             return true;
         }else

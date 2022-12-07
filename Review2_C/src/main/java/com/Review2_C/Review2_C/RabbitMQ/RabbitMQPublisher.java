@@ -1,7 +1,6 @@
 package com.Review2_C.Review2_C.RabbitMQ;
 
 import com.Review2_C.Review2_C.model.Review;
-import com.Review2_C.Review2_C.model.ReviewForVoteDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;

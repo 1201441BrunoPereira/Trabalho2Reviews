@@ -100,7 +100,7 @@ public class RabbitMQConfig {
 
     @Bean
     public FanoutExchange fanoutVoteCreated() {
-        return new FanoutExchange("vote.created.review");
+        return new FanoutExchange("vote.created");
     }
 
     @Bean

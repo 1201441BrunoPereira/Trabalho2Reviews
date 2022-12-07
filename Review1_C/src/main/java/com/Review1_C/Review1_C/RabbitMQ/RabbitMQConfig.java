@@ -13,18 +13,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public FanoutExchange fanoutCreateForVote() {
-        return new FanoutExchange("review1.created.vote");
-    }
-
-    @Bean
     public FanoutExchange fanoutDelete() {
         return new FanoutExchange("review1.deleted");
-    }
-
-    @Bean
-    public FanoutExchange fanoutDeleteForVote() {
-        return new FanoutExchange("review1.deleted.vote");
     }
 
     @Bean
@@ -32,10 +22,6 @@ public class RabbitMQConfig {
         return new FanoutExchange("review1.changedStatus");
     }
 
-    @Bean
-    public FanoutExchange fanoutChangeStatusForVote() {
-        return new FanoutExchange("review1.changedStatus.vote");
-    }
 
     @Bean
     public FanoutExchange fanoutCreate2() {
@@ -58,7 +44,7 @@ public class RabbitMQConfig {
     }
     @Bean
     public FanoutExchange fanoutVoteCreated() {
-        return new FanoutExchange("vote.created.review");
+        return new FanoutExchange("vote.created");
     }
 
     @Bean
