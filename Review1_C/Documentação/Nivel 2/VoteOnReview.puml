@@ -5,7 +5,7 @@ autoactivate on
 autonumber
 
 participant ":AMQP Broker" as bro
-participant ":Review_Q" as rev1
+participant ":Review_C" as rev1
 
 bro -> rev1: vote.created
 rev1 --> bro:

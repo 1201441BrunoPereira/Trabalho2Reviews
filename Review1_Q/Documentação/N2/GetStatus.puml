@@ -4,9 +4,6 @@
 autoactivate on
 autonumber
 
-participant ":UIReview_Q" as rev
-participant ":Review_Q" as rev1
+participant ":Review_Q" as rev
 
-rev -> rev1: GET/reviews/status/{reviewId}
-rev1 --> rev: String
 @enduml
