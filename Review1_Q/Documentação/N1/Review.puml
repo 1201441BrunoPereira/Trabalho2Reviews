@@ -7,7 +7,7 @@ autoactivate on
 autonumber
 
 actor "User" as User
-participant ":UIReview_Q" as rev1
+participant ":APIReview_Q" as rev1
 
 activate User
 
