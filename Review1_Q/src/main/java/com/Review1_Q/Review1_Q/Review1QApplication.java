@@ -1,6 +1,6 @@
 package com.Review1_Q.Review1_Q;
 
-import com.Review1_Q.Review1_Q.repository.ReviewRepository;
+import com.Review1_Q.Review1_Q.Interfacecs.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

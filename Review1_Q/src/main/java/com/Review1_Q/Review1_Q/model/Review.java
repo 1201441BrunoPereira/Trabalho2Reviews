@@ -11,13 +11,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "reviews")
 public class Review {
-
 
     @Id
     @Column(name = "ID", nullable = false, length = 36)
@@ -152,12 +150,6 @@ public class Review {
             throw new IllegalArgumentException("Fun Fact Empty");
         }
         this.funFact = funFact;
-    }
-
-    public static String generateUUID(){
-        UUID Uuid = UUID.randomUUID();
-        String reviewId = Uuid.toString();
-        return  reviewId;
     }
 
     public static String getFunFactResponse(Date date) {

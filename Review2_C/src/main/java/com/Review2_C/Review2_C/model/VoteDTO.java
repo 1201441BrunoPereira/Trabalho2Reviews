@@ -1,6 +1,5 @@
 package com.Review2_C.Review2_C.model;
 
-
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import javax.persistence.Column;

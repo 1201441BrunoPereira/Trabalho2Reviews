@@ -51,7 +51,7 @@ public class VoteDTO {
             voteDTO.setVote(vote);
 
         }catch(Exception e) {
-            System.out.println("Error in Result as " + e.toString());
+            System.out.println("Error in Result as " + e);
         }
 
         return voteDTO;

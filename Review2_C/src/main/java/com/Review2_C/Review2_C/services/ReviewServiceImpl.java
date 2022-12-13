@@ -1,13 +1,12 @@
 package com.Review2_C.Review2_C.services;
 
-import com.Review2_C.Review2_C.RabbitMQ.RabbitMQPublisher;
+import com.Review2_C.Review2_C.Interfaces.RabbitMQ.RabbitMQPublisher;
 import com.Review2_C.Review2_C.model.ProductDTO;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.ReviewDTO;
 import com.Review2_C.Review2_C.model.VoteDTO;
-import com.Review2_C.Review2_C.repository.ProductRepository;
-import com.Review2_C.Review2_C.repository.ReviewRepository;
-import com.Review2_C.Review2_C.repository.VoteRepository;
+import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
+import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
 import com.Review2_C.Review2_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @Service
@@ -25,9 +23,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private VoteRepository voteRepository;
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -50,7 +45,6 @@ public class ReviewServiceImpl implements ReviewService {
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product doesn't exist");
         }
-
     }
 
     @Override
@@ -74,7 +68,6 @@ public class ReviewServiceImpl implements ReviewService {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public Boolean deleteReview(String reviewId) throws JsonProcessingException {

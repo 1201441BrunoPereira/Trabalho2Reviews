@@ -2,7 +2,6 @@ package com.Review2_Q.Review2_Q.model;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.BufferedReader;
@@ -12,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "reviews")
@@ -152,12 +150,6 @@ public class Review {
             throw new IllegalArgumentException("Fun Fact Empty");
         }
         this.funFact = funFact;
-    }
-
-    public static String generateUUID(){
-        UUID Uuid = UUID.randomUUID();
-        String reviewId = Uuid.toString();
-        return  reviewId;
     }
 
     public static String getFunFactResponse(Date date) {

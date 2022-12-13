@@ -1,20 +1,18 @@
 package com.Review1_C.Review1_C.services;
 
-import com.Review1_C.Review1_C.RabbitMQ.RabbitMQPublisher;
+import com.Review1_C.Review1_C.Interfaces.RabbitMQ.RabbitMQPublisher;
 import com.Review1_C.Review1_C.model.ProductDTO;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.model.VoteDTO;
-import com.Review1_C.Review1_C.repository.ProductRepository;
-import com.Review1_C.Review1_C.repository.ReviewRepository;
+import com.Review1_C.Review1_C.Interfaces.repository.ProductRepository;
+import com.Review1_C.Review1_C.Interfaces.repository.ReviewRepository;
 import com.Review1_C.Review1_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -47,11 +45,10 @@ public class ReviewServiceImpl implements ReviewService {
         }else{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Product doesn't exist");
         }
-
     }
 
     @Override
-    public Boolean approveRejectReview(String reviewId, Boolean status){
+    public Boolean approveRejectReview(String reviewId, Boolean status) throws JsonProcessingException {
         Review review = repository.getReviewById(reviewId);
         try {
             if (Objects.equals(review.getStatus(), "PENDING")) {
@@ -66,15 +63,12 @@ public class ReviewServiceImpl implements ReviewService {
             }else {
                 return false;
             }
-        }catch (NullPointerException e){
+        }catch (NullPointerException e) {
             return false;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
-
     }
 
-    public Boolean deleteReview(String reviewId) throws IOException, InterruptedException {
+    public Boolean deleteReview(String reviewId) throws JsonProcessingException {
 
         Long userId = Long.valueOf(jwtUtils.getUserFromJwtToken(jwtUtils.getJwt()));
         Review review = repository.getReviewById(reviewId);
