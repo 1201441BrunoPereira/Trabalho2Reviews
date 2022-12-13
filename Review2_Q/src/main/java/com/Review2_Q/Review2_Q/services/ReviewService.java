@@ -2,6 +2,7 @@ package com.Review2_Q.Review2_Q.services;
 
 import com.Review2_Q.Review2_Q.model.Review;
 import com.Review2_Q.Review2_Q.model.VoteDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,4 +25,7 @@ public interface ReviewService {
 
     void upVote(VoteDTO vote);
 
+    Review createReviewByOther(String review) throws JsonProcessingException;
+
+    void deleteReviewByOther(String review) throws JsonProcessingException;
 }

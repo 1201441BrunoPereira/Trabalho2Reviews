@@ -20,27 +20,21 @@ public class RabbitMQConsumer {
     private ReviewService reviewService;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
-    public void consumeJsonMessageToCreateFrom1(String review) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Review rv = objectMapper.readValue(review, Review.class);
-        reviewRepository.save(rv);
-        System.out.println("Creating review in Database with id:" + rv.getReviewId());
+    public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
+        reviewService.createReviewByOther(review);
+        System.out.println(review);
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue2.name}")
-    public void consumeJsonMessageToDeleteFrom1(String review) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Review rv = objectMapper.readValue(review, Review.class);
-        reviewRepository.delete(rv);
-        System.out.println("Deleting review in Database with id:" + rv.getReviewId());
+    public void consumeJsonMessageToDelete(String review) throws JsonProcessingException {
+        reviewService.deleteReviewByOther(review);
+        System.out.println(review);
     }
 
     @RabbitListener(queues = "#{autoDeleteQueue3.name}")
-    public void consumeJsonMessageToChangeFrom1(String review) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Review rv = objectMapper.readValue(review, Review.class);
-        reviewRepository.save(rv);
-        System.out.println("Changing review status in Database with id:" + rv.getReviewId());
+    public void consumeJsonMessageToChange(String review) throws JsonProcessingException {
+        reviewService.createReviewByOther(review);
+        System.out.println(review);
     }
 
     @RabbitListener(queues =  "#{autoDeleteQueue4.name}")

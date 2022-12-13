@@ -23,4 +23,7 @@ public interface ReviewService {
 
     void upVote(VoteDTO vote);
 
+    Review createReviewByOther(String review) throws JsonProcessingException;
+
+    void deleteReviewByOther(String review) throws JsonProcessingException;
 }
