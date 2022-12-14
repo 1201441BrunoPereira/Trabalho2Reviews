@@ -15,19 +15,5 @@ public class Review1CApplication {
 		SpringApplication.run(Review1CApplication.class, args);
 	}
 
-	@Bean
-	public Queue CreateReview() {
-		return new Queue("CreatedReview1", false);
-	}
-
-	@Bean
-	public Queue DeleteReview() {
-		return new Queue("DeletedReview1", false);
-	}
-
-	@Bean
-	public Queue ChangeStatusReview() {
-		return new Queue("ChangedStatusReview1", false);
-	}
 
 }
