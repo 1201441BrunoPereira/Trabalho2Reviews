@@ -80,4 +80,5 @@ public class RabbitMQConfig {
     public Binding binding5(FanoutExchange fanoutVoteCreated, Queue autoDeleteQueue5){
         return BindingBuilder.bind(autoDeleteQueue5).to(fanoutVoteCreated);
     }
+
 }

@@ -32,6 +32,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public FanoutExchange fanoutRecovery() {
+        return new FanoutExchange("rpc.requests.review.recovery");
+    }
+
+    @Bean
     public Queue autoDeleteQueue1() {
         return new AnonymousQueue();
     }
@@ -55,6 +60,7 @@ public class RabbitMQConfig {
     public Queue autoDeleteQueue5() {
         return new AnonymousQueue();
     }
+
 
     @Bean
     public Binding binding1(FanoutExchange fanoutCreate, Queue autoDeleteQueue1) {
@@ -80,4 +86,7 @@ public class RabbitMQConfig {
     public Binding binding5(FanoutExchange fanoutVoteCreated, Queue autoDeleteQueue5){
         return BindingBuilder.bind(autoDeleteQueue5).to(fanoutVoteCreated);
     }
+
+
+
 }

@@ -9,15 +9,15 @@ import com.Review1_C.Review1_C.services.ProductService;
 import com.Review1_C.Review1_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQConsumer {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @Autowired
     private ReviewService reviewService;
@@ -25,8 +25,6 @@ public class RabbitMQConsumer {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ProductRepository productRepository;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
@@ -58,6 +56,7 @@ public class RabbitMQConsumer {
         reviewService.upVote(vt);
         System.out.println(vote);
     }
+
 
 
 }
