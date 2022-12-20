@@ -7,6 +7,8 @@ import com.Review2_Q.Review2_Q.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -78,6 +80,25 @@ public class ReviewServiceImpl implements ReviewService {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         repository.delete(rv);
+    }
+
+    @Override
+    public void updateDataBaseReview(String review) throws JsonProcessingException {
+        try{
+            JSONArray array = new JSONArray(review);
+
+            for(int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject1 = array.getJSONObject(i);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                Review rv = objectMapper.readValue(jsonObject1.toString(), Review.class);
+                System.out.println("RV: " + rv.getReviewId());
+                repository.save(rv);
+            }
+
+        }catch(Exception e) {
+            System.out.println("Error in Result as " + e.toString());
+        }
     }
 
 }

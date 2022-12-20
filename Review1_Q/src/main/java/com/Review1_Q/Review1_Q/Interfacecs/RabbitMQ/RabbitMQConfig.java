@@ -8,6 +8,11 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("reviewQRecovery.request");
+    }
+
+    @Bean
     public FanoutExchange fanoutCreate1() {
         return new FanoutExchange("review.created");
     }

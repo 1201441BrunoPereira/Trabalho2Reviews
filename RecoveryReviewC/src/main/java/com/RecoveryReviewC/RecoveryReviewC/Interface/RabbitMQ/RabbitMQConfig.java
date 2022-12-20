@@ -83,12 +83,12 @@ public class RabbitMQConfig {
 
     @Bean
     public DirectExchange exchange() {
-        return new DirectExchange("reviewRecovery.request");
+        return new DirectExchange("reviewCRecovery.request");
     }
 
     @Bean
     public Queue queue() {
-        return new Queue("reviewRecovery.request");
+        return new Queue("reviewCRecovery.request");
     }
 
     @Bean

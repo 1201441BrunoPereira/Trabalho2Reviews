@@ -28,4 +28,6 @@ public interface ReviewService {
     Review createReviewByOther(String review) throws JsonProcessingException;
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
+
+    void updateDataBaseReview(String review) throws JsonProcessingException;
 }

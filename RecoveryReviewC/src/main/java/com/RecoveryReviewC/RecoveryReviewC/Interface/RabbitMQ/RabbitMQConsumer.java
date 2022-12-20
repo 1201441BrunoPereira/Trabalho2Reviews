@@ -51,7 +51,7 @@ public class RabbitMQConsumer {
         System.out.println(vote);
     }
 
-    @RabbitListener(queues = "reviewRecovery.request")
+    @RabbitListener(queues = "reviewCRecovery.request")
     public String reviewRecovery(String message) throws JsonProcessingException {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         if(message.equals("Review")){
