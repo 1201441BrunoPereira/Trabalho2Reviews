@@ -1,15 +1,12 @@
 package com.Review2_C.Review2_C.Interfaces.RabbitMQ;
 
 
-import com.Review2_C.Review2_C.model.ProductDTO;
-import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.VoteDTO;
 import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
 import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
 import com.Review2_C.Review2_C.services.ProductService;
 import com.Review2_C.Review2_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

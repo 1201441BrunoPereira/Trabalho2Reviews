@@ -1,7 +1,7 @@
 package com.Review1_C.Review1_C.services;
 
 import com.Review1_C.Review1_C.Interfaces.RabbitMQ.RabbitMQPublisher;
-import com.Review1_C.Review1_C.model.ProductDTO;
+import com.Review1_C.Review1_C.model.Product;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.model.VoteDTO;
@@ -11,9 +11,12 @@ import com.Review1_C.Review1_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.*;
 
 @Service
@@ -86,8 +89,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void addProduct(String sku){
-        ProductDTO productDTO = new ProductDTO(sku);
-        productRepository.save(productDTO);
+        Product product = new Product(sku);
+        productRepository.save(product);
     }
 
     @Override
@@ -109,6 +112,25 @@ public class ReviewServiceImpl implements ReviewService {
         ObjectMapper objectMapper = new ObjectMapper();
         Review rv = objectMapper.readValue(review, Review.class);
         repository.delete(rv);
+    }
+
+    @Override
+    public void updateDataBaseReview(String review) throws JsonProcessingException {
+        try{
+            JSONArray array = new JSONArray(review);
+
+            for(int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject1 = array.getJSONObject(i);
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                Review rv = objectMapper.readValue(jsonObject1.toString(), Review.class);
+                System.out.println("RV: " + rv.getReviewId());
+                repository.save(rv);
+            }
+
+        }catch(Exception e) {
+            System.out.println("Error in Result as " + e.toString());
+        }
     }
 
 

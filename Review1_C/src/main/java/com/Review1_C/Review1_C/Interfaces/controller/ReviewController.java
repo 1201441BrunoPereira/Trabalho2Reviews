@@ -1,7 +1,5 @@
 package com.Review1_C.Review1_C.Interfaces.controller;
 
-import com.Review1_C.Review1_C.Interfaces.RabbitMQ.Client;
-import com.Review1_C.Review1_C.Interfaces.RabbitMQ.RabbitMQConsumer;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.services.ReviewService;
@@ -17,14 +15,6 @@ import java.io.IOException;
 public class ReviewController {
     @Autowired
     private ReviewService service;
-
-    @Autowired
-    private Client client;
-
-    /*@GetMapping(value = "/testeRabbit")
-    public String testeRabbit() {
-        return client.ReceiveReview("ReviewRecords");
-    }*/
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

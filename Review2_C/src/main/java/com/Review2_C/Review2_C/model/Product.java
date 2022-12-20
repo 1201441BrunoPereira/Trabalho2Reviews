@@ -1,4 +1,4 @@
-package com.Review1_C.Review1_C.model;
+package com.Review2_C.Review2_C.model;
 
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
@@ -9,17 +9,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "products")
-public class ProductDTO {
+public class Product {
 
     @Id
     @Column(nullable = false, unique = true)
     private String sku;
 
-    public ProductDTO(final String sku) {
+    public Product(final String sku) {
         setSku(sku);
     }
 
-    public ProductDTO() {
+    public Product() {
     }
 
     public String getSku() {
@@ -30,18 +30,18 @@ public class ProductDTO {
         this.sku = sku;
     }
 
-    public static ProductDTO readJson(String json){
-        ProductDTO productDTO = new ProductDTO();
+    public static Product readJson(String json){
+        Product product = new Product();
         try{
 
             JSONObject object = new JSONObject(json);
             String sku = object.getString("sku");
-            productDTO.setSku(sku);
+            product.setSku(sku);
 
         }catch(Exception e) {
             System.out.println("Error in Result as " + e.toString());
         }
 
-        return productDTO;
+        return product;
     }
 }

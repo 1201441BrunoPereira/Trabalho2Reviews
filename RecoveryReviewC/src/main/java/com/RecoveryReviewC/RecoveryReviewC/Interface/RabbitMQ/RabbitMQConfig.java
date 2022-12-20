@@ -1,4 +1,4 @@
-package com.RecoveryReviewC.RecoveryReviewC.controller.RabbitMQ;
+package com.RecoveryReviewC.RecoveryReviewC.Interface.RabbitMQ;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
@@ -79,6 +79,22 @@ public class RabbitMQConfig {
     @Bean
     public Binding binding5(FanoutExchange fanoutVoteCreated, Queue autoDeleteQueue5){
         return BindingBuilder.bind(autoDeleteQueue5).to(fanoutVoteCreated);
+    }
+
+    @Bean
+    public DirectExchange exchange() {
+        return new DirectExchange("reviewRecovery.request");
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue("reviewRecovery.request");
+    }
+
+    @Bean
+    public Binding binding6(DirectExchange exchange,
+                            Queue queue) {
+        return BindingBuilder.bind(queue).to(exchange).with("rpc");
     }
 
 }

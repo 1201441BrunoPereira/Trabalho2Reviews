@@ -29,4 +29,5 @@ public interface ReviewService {
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
+    void updateDataBaseReview(String review) throws JsonProcessingException;
 }
