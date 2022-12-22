@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -133,7 +134,15 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
-
+    @Override
+    public void createReviewByVote(String vote) throws JsonProcessingException, JSONException {
+        JSONObject object = new JSONObject(vote);
+        if(productRepository.getProductDTOBySku(object.getString("sku")) !=null) {
+            Review rv = Review.readJson(vote);
+            jsonProducer.sendJsonMessageToCreate(rv);
+            repository.save(rv);
+        }
+    }
 
 }
 

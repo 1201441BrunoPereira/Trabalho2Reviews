@@ -32,6 +32,9 @@ public class Review {
     @Column(nullable = false)
     private String status;
 
+    @Column
+    private String voteIdIfCreatedFromVote;
+
     @Column(nullable = false)
     private String skuProduct;
 
@@ -60,7 +63,7 @@ public class Review {
         setSkuProduct(skuProduct);
     }
 
-    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact,int upVote,int downVote,final Long userId) {
+    private Review(final String reviewId, final String skuProduct,final String status,final Date date, final String text, final int rating, final String funFact,int upVote,int downVote,final Long userId, final String voteIdIfCreatedFromVote) {
         setReviewId(reviewId);
         setStatus(status);
         setDate(date);
@@ -71,6 +74,7 @@ public class Review {
         setUpVote(upVote);
         setDownVote(downVote);
         setUserId(userId);
+        setVoteIdIfCreatedFromVote(voteIdIfCreatedFromVote);
     }
 
 
@@ -208,4 +212,13 @@ public class Review {
         }else
             setDownVote(getDownVote()+1);
     }
+
+    public String getVoteIdIfCreatedFromVote() {
+        return voteIdIfCreatedFromVote;
+    }
+
+    public void setVoteIdIfCreatedFromVote(String voteIdIfCreatedFromVote) {
+        this.voteIdIfCreatedFromVote = voteIdIfCreatedFromVote;
+    }
+
 }

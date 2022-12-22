@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMQPublisher {
 
-
+    @Autowired
     private RabbitTemplate template;
 
     @Autowired

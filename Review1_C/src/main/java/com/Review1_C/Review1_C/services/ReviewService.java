@@ -7,6 +7,7 @@ import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
 import com.Review1_C.Review1_C.model.VoteDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -30,4 +31,6 @@ public interface ReviewService {
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
     void updateDataBaseReview(String review) throws JsonProcessingException;
+
+    void createReviewByVote(String vote) throws JsonProcessingException, JSONException;
 }

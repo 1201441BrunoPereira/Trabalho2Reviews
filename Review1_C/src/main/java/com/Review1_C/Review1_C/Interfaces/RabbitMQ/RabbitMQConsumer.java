@@ -6,6 +6,7 @@ import com.Review1_C.Review1_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -50,6 +51,11 @@ public class RabbitMQConsumer {
         System.out.println(vote);
     }
 
+    @RabbitListener(queues =  "#{autoDeleteQueue6.name}")
+    public void consumeJsonMessageToCreateReviewFromTemporaryVote(String tempoVote) throws JsonProcessingException, JSONException {
+        reviewService.createReviewByVote(tempoVote);
+        System.out.println(tempoVote);
+    }
 
 
 }
