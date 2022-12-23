@@ -5,12 +5,11 @@ package com.Review1_C.Review1_C.services;
 
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
-import com.Review1_C.Review1_C.model.VoteDTO;
+import com.Review1_C.Review1_C.VoteDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 
 import java.io.IOException;
-import java.util.UUID;
 
 
 public interface ReviewService {

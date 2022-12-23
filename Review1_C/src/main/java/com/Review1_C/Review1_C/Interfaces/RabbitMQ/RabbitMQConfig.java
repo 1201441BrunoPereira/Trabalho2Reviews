@@ -46,6 +46,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public FanoutExchange fanoutDeleteVote() {
+        return new FanoutExchange("reviewVote.deleted");
+    }
+
+    @Bean
     public Queue autoDeleteQueue1() {
         return new AnonymousQueue();
     }

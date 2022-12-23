@@ -47,6 +47,9 @@ public class Review {
     @Column
     private int downVote;
 
+    @Column
+    private String voteIdIfCreatedFromVote;
+
     @Column()
     private Long userId;
 
@@ -73,6 +76,13 @@ public class Review {
         setUserId(userId);
     }
 
+    public String getVoteIdIfCreatedFromVote() {
+        return voteIdIfCreatedFromVote;
+    }
+
+    public void setVoteIdIfCreatedFromVote(String voteIdIfCreatedFromVote) {
+        this.voteIdIfCreatedFromVote = voteIdIfCreatedFromVote;
+    }
 
     public String getText() {
         return text;

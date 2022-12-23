@@ -4,7 +4,7 @@ import com.Review1_C.Review1_C.Interfaces.RabbitMQ.RabbitMQPublisher;
 import com.Review1_C.Review1_C.model.Product;
 import com.Review1_C.Review1_C.model.Review;
 import com.Review1_C.Review1_C.model.ReviewDTO;
-import com.Review1_C.Review1_C.model.VoteDTO;
+import com.Review1_C.Review1_C.VoteDTO;
 import com.Review1_C.Review1_C.Interfaces.repository.ProductRepository;
 import com.Review1_C.Review1_C.Interfaces.repository.ReviewRepository;
 import com.Review1_C.Review1_C.security.JwtUtils;
@@ -137,10 +137,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public void createReviewByVote(String vote) throws JsonProcessingException, JSONException {
         JSONObject object = new JSONObject(vote);
+        Review rv = Review.readJson(vote);
         if(productRepository.getProductDTOBySku(object.getString("sku")) !=null) {
-            Review rv = Review.readJson(vote);
             jsonProducer.sendJsonMessageToCreate(rv);
             repository.save(rv);
+        }else{
+            jsonProducer.sendJsonMessageToDeleteTempVote(rv.getVoteIdIfCreatedFromVote());
         }
     }
 

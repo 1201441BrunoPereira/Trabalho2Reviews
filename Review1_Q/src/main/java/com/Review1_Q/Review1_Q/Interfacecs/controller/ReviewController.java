@@ -52,6 +52,11 @@ public class ReviewController {
         return service.getAllPendingReviews();
     }
 
+    @GetMapping(value = "/createByVote/{voteIdIfCreatedFromVote}")
+    public Review getReviewCreatedByVote(@PathVariable("voteIdIfCreatedFromVote") final String voteIdIfCreatedFromVote){
+        return service.getReviewCreatedByVote(voteIdIfCreatedFromVote);
+    }
+
     @GetMapping(value = "/status/{reviewId}")
     public String getStatus(@PathVariable ("reviewId") final String reviewId){
         return service.getStatus(reviewId);

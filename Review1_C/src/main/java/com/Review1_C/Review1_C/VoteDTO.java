@@ -1,11 +1,7 @@
-package com.Review1_C.Review1_C.model;
+package com.Review1_C.Review1_C;
 
 
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 public class VoteDTO {
 

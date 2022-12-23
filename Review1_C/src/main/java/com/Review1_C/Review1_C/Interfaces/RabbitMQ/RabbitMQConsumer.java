@@ -1,6 +1,6 @@
 package com.Review1_C.Review1_C.Interfaces.RabbitMQ;
 
-import com.Review1_C.Review1_C.model.VoteDTO;
+import com.Review1_C.Review1_C.VoteDTO;
 import com.Review1_C.Review1_C.services.ProductService;
 import com.Review1_C.Review1_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;

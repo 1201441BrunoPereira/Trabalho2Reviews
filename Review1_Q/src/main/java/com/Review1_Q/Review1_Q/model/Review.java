@@ -53,6 +53,7 @@ public class Review {
     @Column()
     private Long userId;
 
+
     public Review() {
     }
 
