@@ -51,7 +51,7 @@ public class RabbitMQConsumer {
         System.out.println(vote);
     }
 
-    @RabbitListener(queues =  "#{autoDeleteQueue6.name}")
+    @RabbitListener(queues =  "#{queueTempVote.name}")
     public void consumeJsonMessageToCreateReviewFromTemporaryVote(String tempoVote) throws JsonProcessingException, JSONException {
         reviewService.createReviewByVote(tempoVote);
         System.out.println(tempoVote);

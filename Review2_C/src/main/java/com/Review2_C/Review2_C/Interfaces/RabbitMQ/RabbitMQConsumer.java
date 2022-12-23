@@ -1,5 +1,6 @@
 package com.Review2_C.Review2_C.Interfaces.RabbitMQ;
 
+
 import com.Review2_C.Review2_C.VoteDTO;
 import com.Review2_C.Review2_C.services.ProductService;
 import com.Review2_C.Review2_C.services.ReviewService;
@@ -51,7 +52,7 @@ public class RabbitMQConsumer {
         System.out.println(vote);
     }
 
-    @RabbitListener(queues =  "#{autoDeleteQueue6.name}")
+    @RabbitListener(queues =  "#{queueTempVote.name}")
     public void consumeJsonMessageToCreateReviewFromTemporaryVote(String tempoVote) throws JsonProcessingException, JSONException {
         reviewService.createReviewByVote(tempoVote);
         System.out.println(tempoVote);
