@@ -1,8 +1,8 @@
 package com.Review2_Q.Review2_Q.services;
 
+import com.Review2_Q.Review2_Q.Interfaces.repository.ReviewRepository;
 import com.Review2_Q.Review2_Q.model.Review;
 import com.Review2_Q.Review2_Q.model.VoteDTO;
-import com.Review2_Q.Review2_Q.Interfaces.repository.ReviewRepository;
 import com.Review2_Q.Review2_Q.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -33,7 +33,6 @@ public class ReviewServiceImpl implements ReviewService {
     public List<Review> getAllReviewsBySku(String sku){
         return repository.getReviewsByProduct(sku).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Reviews not found"));
     }
-
 
     @Override
     public List<Review> getAllReviews(){
@@ -101,4 +100,9 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    @Override
+    public Review getReviewCreatedByVote(String voteIdIfCreatedFromVote){
+        System.out.println(repository.getReviewCreatedByVote(voteIdIfCreatedFromVote));
+        return repository.getReviewCreatedByVote(voteIdIfCreatedFromVote);
+    }
 }

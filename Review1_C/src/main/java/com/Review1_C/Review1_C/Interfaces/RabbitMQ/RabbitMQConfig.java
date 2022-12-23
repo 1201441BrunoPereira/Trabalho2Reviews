@@ -30,14 +30,10 @@ public class RabbitMQConfig {
     public FanoutExchange fanoutCreateProduct(){
         return new FanoutExchange("product.created");
     }
+
     @Bean
     public FanoutExchange fanoutVoteCreated() {
         return new FanoutExchange("vote.created");
-    }
-
-    @Bean
-    public FanoutExchange fanoutRecovery() {
-        return new FanoutExchange("rpc.requests.review.recovery");
     }
 
     @Bean

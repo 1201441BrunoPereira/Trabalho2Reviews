@@ -1,4 +1,4 @@
-package com.Review2_C.Review2_C.model;
+package com.Review2_C.Review2_C;
 
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 

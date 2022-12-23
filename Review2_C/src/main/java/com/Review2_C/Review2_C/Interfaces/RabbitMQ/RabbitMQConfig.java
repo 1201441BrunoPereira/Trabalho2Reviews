@@ -11,7 +11,6 @@ public class RabbitMQConfig {
     public DirectExchange exchange() {
         return new DirectExchange("reviewCRecovery.request");
     }
-
     @Bean
     public FanoutExchange fanoutCreate() {
         return new FanoutExchange("review.created");
@@ -35,6 +34,16 @@ public class RabbitMQConfig {
     @Bean
     public FanoutExchange fanoutVoteCreated() {
         return new FanoutExchange("vote.created");
+    }
+
+    @Bean
+    public FanoutExchange fanoutTempVote() {
+        return new FanoutExchange("voteReceivedWithoutReview.created");
+    }
+
+    @Bean
+    public FanoutExchange fanoutDeleteVote() {
+        return new FanoutExchange("reviewVote.deleted");
     }
 
     @Bean
@@ -63,6 +72,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue autoDeleteQueue6() {
+        return new AnonymousQueue();
+    }
+
+    @Bean
     public Binding binding1(FanoutExchange fanoutCreate, Queue autoDeleteQueue1) {
         return BindingBuilder.bind(autoDeleteQueue1).to(fanoutCreate);
     }
@@ -81,9 +95,14 @@ public class RabbitMQConfig {
     public Binding binding4(FanoutExchange fanoutCreateProduct, Queue autoDeleteQueue4){
         return BindingBuilder.bind(autoDeleteQueue4).to(fanoutCreateProduct);
     }
+
     @Bean
     public Binding binding5(FanoutExchange fanoutVoteCreated, Queue autoDeleteQueue5){
         return BindingBuilder.bind(autoDeleteQueue5).to(fanoutVoteCreated);
     }
 
+    @Bean
+    public Binding binding6(FanoutExchange fanoutTempVote, Queue autoDeleteQueue6){
+        return BindingBuilder.bind(autoDeleteQueue6).to(fanoutTempVote);
+    }
 }

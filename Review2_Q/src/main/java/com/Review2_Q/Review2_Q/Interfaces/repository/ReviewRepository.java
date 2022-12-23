@@ -1,5 +1,6 @@
 package com.Review2_Q.Review2_Q.Interfaces.repository;
 
+
 import com.Review2_Q.Review2_Q.model.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,9 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
 
     @Query("SELECT r FROM Review r WHERE r.reviewId = :reviewId")
     Review getReview(@Param("reviewId") String reviewId);
+
+    @Query("SELECT r FROM Review r WHERE r.voteIdIfCreatedFromVote = :voteIdIfCreatedFromVote")
+    Review getReviewCreatedByVote(@Param("voteIdIfCreatedFromVote") String voteIdIfCreatedFromVote);
 
     @Query("SELECT r FROM Review r")
     Optional<List<Review>> getAllReviews();

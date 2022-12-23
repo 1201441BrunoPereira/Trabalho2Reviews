@@ -1,30 +1,24 @@
 package com.Review2_C.Review2_C.Interfaces.RabbitMQ;
 
-
-import com.Review2_C.Review2_C.model.VoteDTO;
-import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
-import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
+import com.Review2_C.Review2_C.VoteDTO;
 import com.Review2_C.Review2_C.services.ProductService;
 import com.Review2_C.Review2_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQConsumer {
 
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @Autowired
     private ReviewService reviewService;
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
     private ProductService productService;
+
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {
@@ -56,5 +50,12 @@ public class RabbitMQConsumer {
         reviewService.upVote(vt);
         System.out.println(vote);
     }
+
+    @RabbitListener(queues =  "#{autoDeleteQueue6.name}")
+    public void consumeJsonMessageToCreateReviewFromTemporaryVote(String tempoVote) throws JsonProcessingException, JSONException {
+        reviewService.createReviewByVote(tempoVote);
+        System.out.println(tempoVote);
+    }
+
 
 }

@@ -5,11 +5,14 @@ import com.Review2_Q.Review2_Q.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.io.IOException;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/reviews")
@@ -25,6 +28,7 @@ public class ReviewController {
         }
         return ResponseEntity.ok().body(review);
     }
+
 
     @GetMapping(value = "/")
     public List<Review> getAllReviews(){
@@ -50,6 +54,11 @@ public class ReviewController {
     @GetMapping(value = "/pending")
     public Iterable<Review> getAllPendingReviews(){
         return service.getAllPendingReviews();
+    }
+
+    @GetMapping(value = "/createByVote/{voteIdIfCreatedFromVote}")
+    public Review getReviewCreatedByVote(@PathVariable("voteIdIfCreatedFromVote") final String voteIdIfCreatedFromVote){
+        return service.getReviewCreatedByVote(voteIdIfCreatedFromVote);
     }
 
     @GetMapping(value = "/status/{reviewId}")

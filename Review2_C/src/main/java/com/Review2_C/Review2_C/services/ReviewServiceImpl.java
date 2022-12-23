@@ -1,17 +1,19 @@
 package com.Review2_C.Review2_C.services;
 
+
 import com.Review2_C.Review2_C.Interfaces.RabbitMQ.RabbitMQPublisher;
+import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
+import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
+import com.Review2_C.Review2_C.VoteDTO;
 import com.Review2_C.Review2_C.model.Product;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.ReviewDTO;
-import com.Review2_C.Review2_C.model.VoteDTO;
-import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
-import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
 import com.Review2_C.Review2_C.security.JwtUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ProductRepository productRepository;
+
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -51,7 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Boolean approveRejectReview(String reviewId, Boolean status){
+    public Boolean approveRejectReview(String reviewId, Boolean status) throws JsonProcessingException {
         Review review = repository.getReviewById(reviewId);
         try {
             if (Objects.equals(review.getStatus(), "PENDING")) {
@@ -66,10 +69,8 @@ public class ReviewServiceImpl implements ReviewService {
             }else {
                 return false;
             }
-        }catch (NullPointerException e){
+        }catch (NullPointerException e) {
             return false;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -133,6 +134,19 @@ public class ReviewServiceImpl implements ReviewService {
             System.out.println("Error in Result as " + e.toString());
         }
     }
+
+    @Override
+    public void createReviewByVote(String vote) throws JsonProcessingException, JSONException {
+        JSONObject object = new JSONObject(vote);
+        Review rv = Review.readJson(vote);
+        if(productRepository.getProductDTOBySku(object.getString("sku")) !=null) {
+            jsonProducer.sendJsonMessageToCreate(rv);
+            repository.save(rv);
+        }else{
+            jsonProducer.sendJsonMessageToDeleteTempVote(rv.getVoteIdIfCreatedFromVote());
+        }
+    }
+
 }
 
 

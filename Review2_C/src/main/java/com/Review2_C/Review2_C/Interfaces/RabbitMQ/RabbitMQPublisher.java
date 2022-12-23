@@ -9,8 +9,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class RabbitMQPublisher {
 
@@ -22,6 +20,9 @@ public class RabbitMQPublisher {
 
     @Autowired
     private FanoutExchange fanoutDelete;
+
+    @Autowired
+    private FanoutExchange fanoutDeleteVote;
 
     @Autowired
     private FanoutExchange fanoutChangeStatus;
@@ -43,6 +44,12 @@ public class RabbitMQPublisher {
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(review);
         template.convertAndSend(fanoutChangeStatus.getName(), "", json);
+    }
+
+    public void sendJsonMessageToDeleteTempVote(String voteIdIfCreatedFromVote) throws JsonProcessingException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString(voteIdIfCreatedFromVote);
+        template.convertAndSend(fanoutDeleteVote.getName(), "", json);
     }
 
 

@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import java.io.IOException;
 
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/reviews")
@@ -22,7 +22,6 @@ public class ReviewController {
     public ResponseEntity<Review> createReview(@RequestBody final ReviewDTO rev) throws IOException, InterruptedException {
         return new ResponseEntity<>(service.create(rev), HttpStatus.CREATED);
     }
-
 
     @PutMapping(value = "/{reviewId}/approve/{reviewStatus}")
     public ResponseEntity<String> approveRejectReview(@PathVariable("reviewId") final String reviewId, @PathVariable ("reviewStatus") final Boolean reviewStatus) throws IOException, InterruptedException {
@@ -41,5 +40,4 @@ public class ReviewController {
         } else
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Review can't be deleted because have votes or you are note de creator");
     }
-
 }
