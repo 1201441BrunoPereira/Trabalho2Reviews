@@ -14,9 +14,6 @@ import org.springframework.stereotype.Service;
 public class RabbitMQConsumer {
 
     @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
     private ReviewService reviewService;
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
@@ -45,9 +42,9 @@ public class RabbitMQConsumer {
     }
 
     @RabbitListener(queues = "reviewQRecovery.request")
-    public String reviewRecovery(String message) throws JsonProcessingException {
+    public String reviewRecovery(int page) throws JsonProcessingException {
         System.out.println(" [x] Received request for review recovery");
-        return reviewService.getReviews();
+        return reviewService.getReviews(page);
     }
 
 }

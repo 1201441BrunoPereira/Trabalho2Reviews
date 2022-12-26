@@ -1,6 +1,7 @@
 package com.RecoveryReviewQ.RecoveryReviewQ.repository;
 
 import com.RecoveryReviewQ.RecoveryReviewQ.model.Review;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
     Review getReview(@Param("reviewId") String reviewId);
 
     @Query("SELECT r FROM Review r")
-    List<Review> getAllReviews();
+    List<Review> getAllByPage(Pageable pageable);
 
 }
 

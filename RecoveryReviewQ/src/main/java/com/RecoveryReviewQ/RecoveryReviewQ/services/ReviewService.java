@@ -15,5 +15,5 @@ public interface ReviewService {
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
-    String getReviews() throws JsonProcessingException;
+    String getReviews(int page) throws JsonProcessingException;
 }

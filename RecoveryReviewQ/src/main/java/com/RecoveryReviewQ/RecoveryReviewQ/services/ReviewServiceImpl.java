@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,15 +40,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public String getReviews() throws JsonProcessingException {
-        List<Review> reviewList = repository.getAllReviews();
+    public String getReviews(int page) throws JsonProcessingException {
+        List<Review> reviewList = repository.getAllByPage(PageRequest.of(page,10));
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString(reviewList);
         System.out.println(" Review:  " + json);
         return json;
     }
-
-
 }
 
 

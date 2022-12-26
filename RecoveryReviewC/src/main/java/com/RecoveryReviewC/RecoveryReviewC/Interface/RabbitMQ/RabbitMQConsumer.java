@@ -53,13 +53,14 @@ public class RabbitMQConsumer {
 
     @RabbitListener(queues = "reviewCRecovery.request")
     public String reviewRecovery(String message) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        if(message.equals("Review")){
+        String newMessage = message.substring(0,6);
+        if(newMessage.equals("Review")){
             System.out.println(" [x] Received request for review recovery");
-            return reviewService.getReviews();
+            return reviewService.getReviews(message);
         }else{
             System.out.println(" [x] Received request for product recovery");
-            return productService.getProducts();
+            return productService.getProducts(message);
         }
     }
+
 }

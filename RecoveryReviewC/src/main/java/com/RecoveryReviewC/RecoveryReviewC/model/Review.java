@@ -1,6 +1,5 @@
 package com.RecoveryReviewC.RecoveryReviewC.model;
 
-import com.RecoveryReviewC.RecoveryReviewC.ReviewDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
