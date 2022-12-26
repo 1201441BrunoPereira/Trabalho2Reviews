@@ -103,6 +103,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review getReviewCreatedByVote(String voteIdIfCreatedFromVote){
         System.out.println(repository.getReviewCreatedByVote(voteIdIfCreatedFromVote));
-        return repository.getReviewCreatedByVote(voteIdIfCreatedFromVote);
+        if(repository.getReviewCreatedByVote(voteIdIfCreatedFromVote) != null){
+            return repository.getReviewCreatedByVote(voteIdIfCreatedFromVote);
+        }else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are no reviews");
+        }
     }
 }

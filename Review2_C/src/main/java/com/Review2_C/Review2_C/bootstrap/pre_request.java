@@ -32,11 +32,15 @@ public class pre_request {
     public void run() throws JsonProcessingException {
        System.out.println(" [x] Requesting review from recovery system");
        String response = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Review");
-       reviewService.updateDataBaseReview(response);
+       if(response != null){
+           reviewService.updateDataBaseReview(response);
+       }
        System.out.println(" [.] Got '" + response + "'");
        System.out.println(" [x] Requesting product from recovery system");
        String responseProduct = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Product");
-       productService.updateDataBaseProduct(responseProduct);
+       if(responseProduct != null){
+           productService.updateDataBaseProduct(responseProduct);
+       }
        System.out.println(" [.] Got '" + responseProduct + "'");
     }
 

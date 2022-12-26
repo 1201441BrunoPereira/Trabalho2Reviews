@@ -4,7 +4,11 @@ import com.Review1_C.Review1_C.VoteDTO;
 import com.Review1_C.Review1_C.services.ProductService;
 import com.Review1_C.Review1_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
@@ -12,12 +16,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class RabbitMQConsumer {
 
+    @Autowired
+    private RabbitTemplate template;
+
 
     @Autowired
     private ReviewService reviewService;
 
     @Autowired
     private ProductService productService;
+
 
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
@@ -56,6 +64,8 @@ public class RabbitMQConsumer {
         reviewService.createReviewByVote(tempoVote);
         System.out.println(tempoVote);
     }
+
+
 
 
 }
