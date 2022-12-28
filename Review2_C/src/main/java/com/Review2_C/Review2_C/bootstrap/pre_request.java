@@ -44,7 +44,7 @@ public class pre_request {
            }
            System.out.println(" [.] Got '" + response + "'");
            page++;
-       }while (!Objects.equals(response, "[ ]"));
+       }while (!Objects.equals(response, "[ ]") && !Objects.equals(response, null));
 
            System.out.println(" [x] Requesting product from recovery system");
        do{
@@ -55,6 +55,6 @@ public class pre_request {
            }
            System.out.println(" [.] Got '" + responseProduct + "'");
            productPage++;
-       }while (!Objects.equals(response, "[ ]"));
+       }while (!Objects.equals(response, "[ ]") && !Objects.equals(response, null));
     }
 }

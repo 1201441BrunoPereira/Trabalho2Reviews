@@ -37,7 +37,7 @@ public class pre_request {
            }
            System.out.println(" [.] Got '" + response + "'");
            page++;
-       }while (!Objects.equals(response, "[ ]"));
+       }while (!Objects.equals(response, "[ ]") && !Objects.equals(response, null));
     }
 
 }

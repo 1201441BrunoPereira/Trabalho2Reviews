@@ -6,8 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -33,27 +36,29 @@ public class pre_request {
     String responseProduct;
 
 
-   @EventListener(ContextRefreshedEvent.class)
+    @EventListener(ContextRefreshedEvent.class)
     public void run() throws JsonProcessingException {
-       System.out.println(" [x] Requesting review from recovery system");
-       do {
-           String pageString = String.valueOf(page);
-           response = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Review"+pageString);
-           if(response != null ){
-               reviewService.updateDataBaseReview(response);
-           }
-           System.out.println(" [.] Got '" + response + "'");
-           page++;
-       }while (!Objects.equals(response, "[ ]"));
-       System.out.println(" [x] Requesting product from recovery system");
-       do{
-           String pageString = String.valueOf(productPage);
-           responseProduct = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Produc"+pageString );
-           if(responseProduct != null) {
-               productService.updateDataBaseProduct(responseProduct);
-           }
-           System.out.println(" [.] Got '" + responseProduct + "'");
-           productPage++;
-       }while (!Objects.equals(responseProduct, "[ ]"));
+        System.out.println(" [x] Requesting review from recovery system");
+        do {
+            String pageString = String.valueOf(page);
+            response = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Review"+pageString);
+            if(response != null ){
+                reviewService.updateDataBaseReview(response);
+            }
+            System.out.println(" [.] Got '" + response + "'");
+            page++;
+        }while (!Objects.equals(response, "[ ]") && !Objects.equals(response, null));
+
+        System.out.println(" [x] Requesting product from recovery system");
+        do{
+            String pageString = String.valueOf(productPage);
+            responseProduct = (String) template.convertSendAndReceive(exchange.getName(), "rpc", "Produc"+pageString );
+            if(responseProduct != null) {
+                productService.updateDataBaseProduct(responseProduct);
+            }
+            System.out.println(" [.] Got '" + responseProduct + "'");
+            productPage++;
+        }while (!Objects.equals(response, "[ ]") && !Objects.equals(response, null));
     }
+
 }
