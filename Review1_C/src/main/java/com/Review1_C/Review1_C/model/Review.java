@@ -3,7 +3,6 @@ package com.Review1_C.Review1_C.model;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -175,7 +175,6 @@ public class Review {
         String finalResponse;
         String[] parts;
         String part1;
-        int dot;
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int day = calendar.get(Calendar.DAY_OF_MONTH);

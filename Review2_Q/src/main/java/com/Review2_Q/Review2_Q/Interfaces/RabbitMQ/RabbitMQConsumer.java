@@ -1,6 +1,5 @@
 package com.Review2_Q.Review2_Q.Interfaces.RabbitMQ;
 
-import com.Review2_Q.Review2_Q.Interfaces.repository.ReviewRepository;
 import com.Review2_Q.Review2_Q.model.VoteDTO;
 import com.Review2_Q.Review2_Q.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,9 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQConsumer {
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @Autowired
     private ReviewService reviewService;

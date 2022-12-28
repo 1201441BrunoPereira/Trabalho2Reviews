@@ -82,7 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateDataBaseReview(String review) throws JsonProcessingException {
+    public void updateDataBaseReview(String review) {
         try{
             JSONArray array = new JSONArray(review);
 

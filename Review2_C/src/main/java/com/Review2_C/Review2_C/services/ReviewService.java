@@ -13,13 +13,11 @@ import java.io.IOException;
 public interface ReviewService {
 
 
-    Review create(ReviewDTO rev) throws IOException, InterruptedException;
+    Review create(ReviewDTO rev) throws JsonProcessingException;
 
-    Boolean approveRejectReview(String reviewId, Boolean status) throws IOException, InterruptedException;
+    Boolean approveRejectReview(String reviewId, Boolean status) throws JsonProcessingException;
 
-    Boolean deleteReview(String reviewId) throws IOException, InterruptedException;
-
-    void addProduct(String sku);
+    Boolean deleteReview(String reviewId) throws JsonProcessingException;
 
     void upVote(VoteDTO vote);
 
@@ -27,7 +25,7 @@ public interface ReviewService {
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
-    void updateDataBaseReview(String review) throws JsonProcessingException;
+    void updateDataBaseReview(String review);
 
     void createReviewByVote(String vote) throws JsonProcessingException, JSONException;
 }

@@ -1,6 +1,5 @@
 package com.Review2_Q.Review2_Q.bootstrap;
 
-
 import com.Review2_Q.Review2_Q.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.core.DirectExchange;

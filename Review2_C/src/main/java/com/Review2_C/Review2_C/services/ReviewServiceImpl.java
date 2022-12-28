@@ -4,7 +4,6 @@ import com.Review2_C.Review2_C.Interfaces.RabbitMQ.RabbitMQPublisher;
 import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
 import com.Review2_C.Review2_C.Interfaces.repository.ReviewRepository;
 import com.Review2_C.Review2_C.VoteDTO;
-import com.Review2_C.Review2_C.model.Product;
 import com.Review2_C.Review2_C.model.Review;
 import com.Review2_C.Review2_C.model.ReviewDTO;
 import com.Review2_C.Review2_C.security.JwtUtils;
@@ -27,7 +26,6 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ProductRepository productRepository;
-
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -89,12 +87,6 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void addProduct(String sku){
-        Product product = new Product(sku);
-        productRepository.save(product);
-    }
-
-    @Override
     public void upVote(VoteDTO vote){
         Review rv = repository.getReviewById(vote.getReviewId());
         rv.upVote(vote.isVote());
@@ -116,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateDataBaseReview(String review) throws JsonProcessingException {
+    public void updateDataBaseReview(String review) {
         try{
             JSONArray array = new JSONArray(review);
 

@@ -1,7 +1,6 @@
 package com.RecoveryReviewC.RecoveryReviewC.model;
 
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;

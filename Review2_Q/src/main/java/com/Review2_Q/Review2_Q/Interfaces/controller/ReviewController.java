@@ -29,7 +29,6 @@ public class ReviewController {
         return ResponseEntity.ok().body(review);
     }
 
-
     @GetMapping(value = "/")
     public List<Review> getAllReviews(){
         return service.getAllReviews();
@@ -44,7 +43,6 @@ public class ReviewController {
     public List<Review> getAllReviewsBySku(@PathVariable("sku")final String sku){
         return service.getAllReviewsBySku(sku);
     }
-
 
     @GetMapping(value = "/{skuProducts}/votes")
     public Iterable<Review> getReviewsByProductOrderByVotes(@PathVariable("skuProducts") final String skuProducts) throws IOException, InterruptedException {

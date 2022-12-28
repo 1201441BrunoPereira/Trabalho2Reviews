@@ -1,13 +1,10 @@
 package com.Review2_C.Review2_C.Interfaces.RabbitMQ;
 
-
 import com.Review2_C.Review2_C.VoteDTO;
 import com.Review2_C.Review2_C.services.ProductService;
 import com.Review2_C.Review2_C.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.stereotype.Service;
@@ -16,17 +13,10 @@ import org.springframework.stereotype.Service;
 public class RabbitMQConsumer {
 
     @Autowired
-    private RabbitTemplate template;
-
-    @Autowired
     private ReviewService reviewService;
 
     @Autowired
     private ProductService productService;
-
-    @Autowired
-    private DirectExchange exchangeStatus;
-
 
     @RabbitListener(queues = "#{autoDeleteQueue1.name}")
     public void consumeJsonMessageToCreate(String review) throws JsonProcessingException {

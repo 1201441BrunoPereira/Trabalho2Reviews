@@ -17,7 +17,7 @@ public interface ReviewService {
 
     List<Review> getAllReviewsBySku(String sku);
 
-    List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException;
+    List<Review> getReviewsByProductOrderByVotes(String sku);
 
     List<Review> getAllPendingReviews();
 
@@ -29,7 +29,7 @@ public interface ReviewService {
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
-    void updateDataBaseReview(String review) throws JsonProcessingException;
+    void updateDataBaseReview(String review);
 
     Review getReviewCreatedByVote(String Optional);
 }

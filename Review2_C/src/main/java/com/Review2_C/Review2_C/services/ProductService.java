@@ -1,9 +1,7 @@
 package com.Review2_C.Review2_C.services;
 
-
 import com.Review2_C.Review2_C.Interfaces.repository.ProductRepository;
 import com.Review2_C.Review2_C.model.Product;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -22,7 +20,7 @@ public class ProductService {
         productRepository.save(pt);
     }
 
-    public void updateDataBaseProduct(String product) throws JsonProcessingException {
+    public void updateDataBaseProduct(String product) {
         try{
             JSONArray array = new JSONArray(product);
 

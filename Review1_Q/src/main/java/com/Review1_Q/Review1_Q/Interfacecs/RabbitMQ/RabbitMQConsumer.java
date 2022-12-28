@@ -1,20 +1,14 @@
 package com.Review1_Q.Review1_Q.Interfacecs.RabbitMQ;
 
-import com.Review1_Q.Review1_Q.model.Review;
 import com.Review1_Q.Review1_Q.model.VoteDTO;
-import com.Review1_Q.Review1_Q.Interfacecs.repository.ReviewRepository;
 import com.Review1_Q.Review1_Q.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RabbitMQConsumer {
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @Autowired
     private ReviewService reviewService;

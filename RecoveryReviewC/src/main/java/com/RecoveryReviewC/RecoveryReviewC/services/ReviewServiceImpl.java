@@ -2,7 +2,6 @@ package com.RecoveryReviewC.RecoveryReviewC.services;
 
 import com.RecoveryReviewC.RecoveryReviewC.model.Review;
 import com.RecoveryReviewC.RecoveryReviewC.model.Vote;
-import com.RecoveryReviewC.RecoveryReviewC.repository.ProductRepository;
 import com.RecoveryReviewC.RecoveryReviewC.repository.ReviewRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service

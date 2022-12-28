@@ -13,9 +13,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product,String> {
 
-    @Query("SELECT p FROM Product p")
-    List<Product> getAllProducts();
-
     @Query("SELECT f FROM Product f")
     List<Product> getAllByPage(Pageable pageable);
 

@@ -3,7 +3,6 @@ package com.Review2_Q.Review2_Q.services;
 import com.Review2_Q.Review2_Q.model.Review;
 import com.Review2_Q.Review2_Q.model.VoteDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface ReviewService {
 
     List<Review> getAllReviewsBySku(String sku);
 
-    List<Review> getReviewsByProductOrderByVotes(String sku) throws IOException, InterruptedException;
+    List<Review> getReviewsByProductOrderByVotes(String sku);
 
     List<Review> getAllPendingReviews();
 
@@ -29,7 +28,7 @@ public interface ReviewService {
 
     void deleteReviewByOther(String review) throws JsonProcessingException;
 
-    void updateDataBaseReview(String review) throws JsonProcessingException;
+    void updateDataBaseReview(String review);
 
     Review getReviewCreatedByVote(String Optional);
 }

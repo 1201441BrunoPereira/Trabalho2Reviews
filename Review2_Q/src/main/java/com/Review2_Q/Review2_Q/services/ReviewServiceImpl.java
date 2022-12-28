@@ -12,7 +12,6 @@ import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @Service
@@ -82,7 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateDataBaseReview(String review) throws JsonProcessingException {
+    public void updateDataBaseReview(String review) {
         try{
             JSONArray array = new JSONArray(review);
 

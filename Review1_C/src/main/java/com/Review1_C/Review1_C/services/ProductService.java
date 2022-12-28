@@ -22,7 +22,7 @@ public class ProductService {
         productRepository.save(pt);
     }
 
-    public void updateDataBaseProduct(String product) throws JsonProcessingException {
+    public void updateDataBaseProduct(String product) {
         try{
             JSONArray array = new JSONArray(product);
 

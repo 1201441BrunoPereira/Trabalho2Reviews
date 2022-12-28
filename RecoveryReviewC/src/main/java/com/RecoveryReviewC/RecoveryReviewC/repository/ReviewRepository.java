@@ -14,9 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, String> {
     @Query("SELECT r FROM Review r WHERE r.reviewId = :reviewId")
     Review getReviewById(@Param("reviewId") String reviewId);
 
-    @Query("SELECT r FROM Review r")
-    List<Review> getAllReviews();
-
     @Query("SELECT f FROM Review f")
     List<Review> getAllByPage(Pageable pageable);
 

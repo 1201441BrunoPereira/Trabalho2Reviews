@@ -1,11 +1,8 @@
 package com.RecoveryReviewQ.RecoveryReviewQ.Interface.RabbitMQ;
 
 import com.RecoveryReviewQ.RecoveryReviewQ.model.Vote;
-import com.RecoveryReviewQ.RecoveryReviewQ.repository.ReviewRepository;
 import com.RecoveryReviewQ.RecoveryReviewQ.services.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

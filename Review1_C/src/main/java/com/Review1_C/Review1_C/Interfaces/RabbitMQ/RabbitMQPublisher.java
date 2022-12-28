@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -52,6 +51,4 @@ public class RabbitMQPublisher {
         String json = ow.writeValueAsString(voteIdIfCreatedFromVote);
         template.convertAndSend(fanoutDeleteVote.getName(), "", json);
     }
-
-
 }

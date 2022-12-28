@@ -17,10 +17,6 @@ import org.springframework.stereotype.Service;
 public class RabbitMQConsumer {
 
     @Autowired
-    private RabbitTemplate template;
-
-
-    @Autowired
     private ReviewService reviewService;
 
     @Autowired
@@ -64,8 +60,4 @@ public class RabbitMQConsumer {
         reviewService.createReviewByVote(tempoVote);
         System.out.println(tempoVote);
     }
-
-
-
-
 }
