@@ -1,0 +1,101 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autoactivate on
+autonumber
+
+actor "User" as User
+participant ":HTTPClient" as http
+participant ":ACME" as acme
+
+activate User
+
+User -> http: Get barcode by sku
+http -> acme: GET/products/{sku}/barcode128
+acme --> http: 200
+http --> User: Product
+deactivate http
+User -> http: Find product by sku
+http -> acme: GET/products?sku={sku}
+acme --> http: 200
+http --> User: Product
+deactivate http
+User -> http: List products
+http -> acme: GET/products/search
+acme --> http: 200
+http --> User: List<Product>
+deactivate http
+User -> http: Get catalog
+http -> acme: GET/products/catalog
+acme --> http: 200
+http --> User: Iterable<Product>
+deactivate http
+User -> http: Create review
+http -> acme: POST/reviews
+acme --> http: 201
+deactivate http
+User -> http: Find review by id
+http -> acme: GET/reviews/{reviewId}
+acme --> http: 200
+http --> User: Review
+deactivate http
+User -> http: Find pending reviews
+http -> acme: GET/reviews/pending
+acme --> http: 200
+http --> User: Iterable<reviews>
+deactivate http
+User -> http: Find all reviews
+http -> acme: GET/reviews/
+acme --> http: 200
+http --> User: List<reviews>
+deactivate http
+User -> http: Find all reviews from a product
+http -> acme: GET/{skuProducts}/votes
+acme --> http: 200
+http --> User: Iterable<Review>
+deactivate http
+User -> http: Get status from a review
+http -> acme: GET/reviews/status/{reviewId}
+acme --> http: 200
+http --> User: Status
+deactivate http
+User -> http: Find all my reviews
+http -> acme: GET/myReviews
+acme --> http: 200
+http --> User: Iterable<Review>
+deactivate http
+User -> http: Create a vote
+http -> acme: POST/votes/updateVote
+acme --> http: 201
+deactivate http
+User -> http: Find vote by userId and ReviewId
+http -> acme: GET/votes/{reviewId}/{userId}
+acme --> http: 200
+http --> User: Vote
+deactivate http
+User -> http: List all votes
+http -> acme: GET/votes/
+acme --> http: 200
+http --> User: List<Vote>
+deactivate http
+User -> http: Find vote by id
+http -> acme: GET/votes/{voteId}
+acme --> http: 200
+http --> User: Vote
+deactivate http
+User -> http: List all TempVote
+http -> acme: GET/tempVote
+acme --> http: 200
+http --> User: List<TempVote>
+deactivate http
+User -> http: Find tempVote by id
+http -> acme: GET/tempVote/{tempVoteId}
+acme --> http: 200
+http --> User: TempVote
+deactivate http
+User -> http: Get Rating Frequency
+http -> acme: GET/rating/{sku}
+acme --> http: 200
+http --> User: RatingFrequency
+deactivate http
+@enduml

@@ -1,14 +1,46 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autoactivate on
+
 autonumber
 
-participant ":UIReview_C" as rev1
+participant ":Review_C" as rev1
 participant ":AMQP Broker" as bro
-participant ":Review1" as rev
+participant ":Vote_C" as votC
+participant ":Review_Q" as rev
+participant ":RecoveryReviewQ" as rrq
+participant ":RecoveryReviewC" as rrc
+participant ":AgregatedRating" as aggr
 
-rev1 -> rev: PUT/{reviewId}/approve/{reviewStatus}
-rev --> rev1: String
-rev --> bro: review.changedStatus
+
+-> rev1: PUT/{reviewId}/approve/{reviewStatus}
+activate rev1
+rev1 --> rev1 : save review
+[<- rev1: 201
+rev1 -> bro: PUBLISH review.changedStatus
+deactivate rev1
+activate bro
+bro -> votC: NOTIFY review.changedStatus
+votC --> votC: save review
+activate votC
+deactivate votC
+bro -> rev: NOTIFY review.changedStatus
+rev --> rev: save review
+activate rev
+deactivate rev
+bro -> rrq: NOTIFY review.changedStatus
+rrq --> rrq: save review
+activate rrq
+deactivate rrq
+bro -> rrc: NOTIFY review.changedStatus
+rrc --> rrc: save review
+activate rrc
+deactivate rrc
+bro -> aggr: NOTIFY review.changedStatus
+deactivate bro
+aggr --> aggr: save review
+activate aggr
+deactivate aggr
+
+
 @enduml

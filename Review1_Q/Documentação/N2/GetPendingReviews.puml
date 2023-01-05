@@ -3,9 +3,13 @@
 
 autonumber
 
-autoactivate on
 autonumber
 
 participant ":Review_Q" as rev
+
+-> rev: GET/reviews/pending
+activate rev
+[<- rev: 200
+deactivate rev
 
 @enduml
