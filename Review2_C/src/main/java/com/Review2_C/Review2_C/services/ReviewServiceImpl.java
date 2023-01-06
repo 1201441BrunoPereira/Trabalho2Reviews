@@ -33,6 +33,9 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private RabbitMQPublisher jsonProducer;
 
+    @Autowired
+    private EmailConfigImpl emailConfig;
+
     @Override
     public Review create(ReviewDTO rev) throws JsonProcessingException {
         if(productRepository.getProductDTOBySku(rev.getSku()) !=null){
@@ -133,6 +136,8 @@ public class ReviewServiceImpl implements ReviewService {
         if(productRepository.getProductDTOBySku(object.getString("sku")) !=null) {
             jsonProducer.sendJsonMessageToCreate(rv);
             repository.save(rv);
+            emailConfig.sendSimpleMail("1201441@isep.ipp.pt", "One review has been created with: \nid: "+rv.getReviewId()+"\ntext: "+rv.getText(), "Created Review From Vote");
+
         }else{
             jsonProducer.sendJsonMessageToDeleteTempVote(rv.getVoteIdIfCreatedFromVote());
         }
