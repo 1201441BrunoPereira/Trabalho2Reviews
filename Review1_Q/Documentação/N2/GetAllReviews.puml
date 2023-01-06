@@ -2,10 +2,14 @@
 'https://plantuml.com/sequence-diagram
 
 
-autoactivate on
 autonumber
 
 participant ":Review_Q" as rev
+
+-> rev: GET/reviews/
+activate rev
+[<- rev: 200
+deactivate rev
 
 
 @enduml

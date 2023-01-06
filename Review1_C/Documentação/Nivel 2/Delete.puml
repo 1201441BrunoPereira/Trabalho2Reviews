@@ -1,15 +1,45 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autoactivate on
+
 autonumber
 
-participant ":UIReview_C" as rev1
+participant ":Review_C" as rev1
 participant ":AMQP Broker" as bro
-participant ":Review1" as rev
+participant ":Vote_C" as votC
+participant ":Review_Q" as rev
+participant ":RecoveryReviewQ" as rrq
+participant ":RecoveryReviewC" as rrc
+participant ":AgregatedRating" as aggr
 
 
-rev1 -> rev: DELETE/{reviewId}/remove
-rev --> rev1: String
-rev --> bro: review.deleted
+-> rev1: DELETE/{reviewId}/remove
+activate rev1
+rev1 --> rev1 : delete review
+[<- rev1: 201
+rev1 -> bro: PUBLISH review.deleted
+deactivate rev1
+activate bro
+bro -> votC: NOTIFY review.deleted
+votC --> votC: delete review
+activate votC
+deactivate votC
+bro -> rev: NOTIFY review.deleted
+rev --> rev: delete review
+activate rev
+deactivate rev
+bro -> rrq: NOTIFY review.deleted
+rrq --> rrq: delete review
+activate rrq
+deactivate rrq
+bro -> rrc: NOTIFY review.deleted
+rrc --> rrc: delete review
+activate rrc
+deactivate rrc
+bro -> aggr: NOTIFY review.deleted
+deactivate bro
+aggr --> aggr: delete review
+activate aggr
+deactivate aggr
+
 @enduml

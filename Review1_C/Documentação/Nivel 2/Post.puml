@@ -1,19 +1,47 @@
+
 @startuml
 'https://plantuml.com/sequence-diagram
 
-autoactivate on
+
 autonumber
 
-participant ":UIReview_C" as rev1
+participant ":Review_C" as rev1
 participant ":AMQP Broker" as bro
-participant ":Review1" as rev
-participant ":Product" as prod
+participant ":Vote_C" as votC
+participant ":Review_Q" as rev
+participant ":RecoveryReviewQ" as rrq
+participant ":RecoveryReviewC" as rrc
+participant ":AgregatedRating" as aggr
 
 
-rev1 -> rev: POST/reviews
-rev -> prod: GET/8080/products?sku={sku}
-prod --> rev : isPresent
-rev --> rev1: Review
-rev -->bro: review.created
+-> rev1: POST/review
+activate rev1
+rev1 --> rev1 : save review
+[<- rev1: 201
+rev1 -> bro: PUBLISH review.created
+deactivate rev1
+activate bro
+bro -> votC: NOTIFY review.created
+votC --> votC: save review
+activate votC
+deactivate votC
+bro -> rev: NOTIFY review.created
+rev --> rev: save review
+activate rev
+deactivate rev
+bro -> rrq: NOTIFY review.created
+rrq --> rrq: save review
+activate rrq
+deactivate rrq
+bro -> rrc: NOTIFY review.created
+rrc --> rrc: save review
+activate rrc
+deactivate rrc
+bro -> aggr: NOTIFY review.created
+deactivate bro
+aggr --> aggr: save review
+activate aggr
+deactivate aggr
+
 
 @enduml

@@ -1,0 +1,28 @@
+@startuml
+'https://plantuml.com/sequence-diagram'
+
+autoactivate on
+autonumber
+
+actor "Moderador" as User
+participant ":HTTPClient" as http
+participant ":ACME" as acme
+
+activate User
+
+User -> http: Create Product
+http -> acme: POST/products/create
+acme --> http: 201
+deactivate http
+User -> http: Create review
+http -> acme: POST/reviews
+acme --> http: 201
+deactivate http
+User -> http: Change Review Status
+http -> acme: PUT/{reviewId}/approve/{reviewStatus}
+acme --> http: 201
+deactivate http
+User -> http: Delete Review
+http -> acme: DELETE/{reviewId}/remove
+acme --> http: 201
+@enduml

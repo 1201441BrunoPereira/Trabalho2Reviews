@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+autonumber
+
+participant ":Review_Q" as rev
+participant ":AMQP Broker" as bro
+participant ":RecoveryReviewQ" as rc
+
+
+
+activate rev
+rev -> bro: PUBLISH reviewQRecovery.request
+activate bro
+bro -> rc: NOTIFY reviewQRecovery.request
+activate rc
+rc --> bro: List<Review>
+deactivate rc
+bro --> rev: List<Review>
+deactivate bro
+rev --> rev: save Review
+deactivate rev
+
+
+
+@enduml
